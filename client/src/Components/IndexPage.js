@@ -35,23 +35,23 @@ export default function IndexPage() {
         }
     };
 
-   const DeleteSite = async (id) => {
-    const isConfirmed = window.confirm("Are you sure you want to delete this site?");
-    
-    if (!isConfirmed) {
-        return; 
-    }
+    const DeleteSite = async (id) => {
+        const isConfirmed = window.confirm("Are you sure you want to delete this site?");
 
-    try {
-        await axios.delete(`https://vigilance-secr-server.vercel.app/DeleteSite/${id}`, {
-            headers: { Authorization: `Bearer ${token}` }
-        });
-        setAllSite(AllSite.filter(site => site._id !== id));
-    } catch (error) {
-        console.error("Error deleting site:", error);
-        alert("Failed to delete site.");
-    }
-};
+        if (!isConfirmed) {
+            return;
+        }
+
+        try {
+            await axios.delete(`https://vigilance-secr-server.vercel.app/DeleteSite/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setAllSite(AllSite.filter(site => site._id !== id));
+        } catch (error) {
+            console.error("Error deleting site:", error);
+            alert("Failed to delete site.");
+        }
+    };
 
 
     const AddNewCategory = async (e) => {
@@ -273,10 +273,10 @@ export default function IndexPage() {
 
     const deleteSite = async (siteId) => {
         const isConfirmed = window.confirm("Are you sure you want to delete this site?");
-    
-    if (!isConfirmed) {
-        return;
-    }
+
+        if (!isConfirmed) {
+            return;
+        }
         try {
             await axios.delete(`https://vigilance-secr-server.vercel.app/deletecommonsite/${siteId}`);
             setSites(prevSites => prevSites.filter(site => site._id !== siteId));
@@ -324,11 +324,11 @@ export default function IndexPage() {
     const [AdmineditMode, setAdminEditMode] = useState(false);
 
     const deleteCommonCategory = async (categoryId) => {
-         const isConfirmed = window.confirm("Are you sure you want to delete this Category?");
-    
-    if (!isConfirmed) {
-        return; 
-    }
+        const isConfirmed = window.confirm("Are you sure you want to delete this Category?");
+
+        if (!isConfirmed) {
+            return;
+        }
         try {
             await axios.delete(`https://vigilance-secr-server.vercel.app/deleteCommonCategory/${categoryId}`);
         } catch (error) {
@@ -353,11 +353,11 @@ export default function IndexPage() {
     };
 
     const deleteCategory = async (categoryId) => {
-         const isConfirmed = window.confirm("Are you sure you want to delete this Category?");
-    
-    if (!isConfirmed) {
-        return; // Exit the function if the user clicks "Cancel"
-    }
+        const isConfirmed = window.confirm("Are you sure you want to delete this Category?");
+
+        if (!isConfirmed) {
+            return; // Exit the function if the user clicks "Cancel"
+        }
         try {
             await axios.delete(`https://vigilance-secr-server.vercel.app/DeleteCategory/${categoryId}`, {
                 headers: {
@@ -435,404 +435,320 @@ export default function IndexPage() {
 
     const [showHomeSites, setShowHomeSites] = useState(false);
 
+    const [showSubmenu, setShowSubmenu] = useState(false);
+    const handleSubmenuClick = (e) => {
+        e.stopPropagation(); // Stops Bootstrap from closing the dropdown
+        setShowSubmenu(!showSubmenu);
+    };
 
     return (
         <div className='IndexPage' style={{ backgroundImage: `url(${backgroundImage})` }}>
-            <div className='navbar'>
-                <p>Vigilance/SECR</p>
+
+            <div className='mobile-Navigation'>
+                <button className="btn" type="button" data-bs-toggle="collapse" data-bs-target="#Navigation-Collapse" aria-expanded="false" aria-controls="Navigation-Collapse">
+                    <img src='https://www.freeiconspng.com/thumbs/menu-icon/menu-icon-24.png' alt='...' />
+                </button>
                 <form className='Search' onSubmit={googleSearch}>
                     <input id='search' type='text' placeholder='Google Search...' />
                 </form>
-                {/* Footer Buttons */}
                 {
                     token ?
-                        <div className='footer'>
-                            <div className='editCheckbox desktop'><input type='checkbox' checked={editMode} onChange={(e) => setEditMode(e.target.checked)} />Edit Site</div>
-                            <div className='editCheckbox desktop'><input type='checkbox' checked={showHomeSites} onChange={(e) => setShowHomeSites(e.target.checked)} />Show Home Websites </div>
-                            <button className='btn btn-info desktop' data-bs-toggle="modal" data-bs-target="#ChangeBackgroundModal">Change Background</button>
-                            <button className='btn btn-info desktop' data-bs-toggle="modal" data-bs-target="#AddNewCategoryModal">Add Category</button>
-                            <button className='btn btn-info desktop' data-bs-toggle="modal" data-bs-target="#AddNewSiteModal">Add WebSite</button>
+                        <span>{userName}</span>
+                        : <span>GLANCE</span>
+                }
+            </div>
+            <div className="collapse" id="Navigation-Collapse">
+                <div className='options'>
+                    {
+                        token ?
+                            <>
+                                {/* Users Modify */}
+                                <div className="dropend">
+                                    <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Modify
+                                    </button>
+                                    <ul className="dropdown-menu">
+                                        <li><div className='Checkbox dropdown-item'><input type='checkbox' checked={editMode} onChange={(e) => setEditMode(e.target.checked)} />Edit Site</div></li>
+                                        <li><button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#AddNewSiteModal">Add Website</button></li>
+                                        <li><button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#AddNewCategoryModal">Add Category</button></li>
+                                        <li><button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#ChangeBackgroundModal">Change Background</button></li>
+                                    </ul>
+                                </div>
 
-                            <div className="dropdown mobile">
-                                <button className="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Expand
-                                </button>
-                                <ul className="dropdown-menu">
-                                    <li><div className='editCheckbox'><input type='checkbox' checked={editMode} onChange={(e) => setEditMode(e.target.checked)} />Edit Site</div></li>
-                                    <li><div className='editCheckbox'><input type='checkbox' checked={showHomeSites} onChange={(e) => setShowHomeSites(e.target.checked)} />Show Home Websites </div></li>
-                                    <li><button className='btn' data-bs-toggle="modal" data-bs-target="#ChangeBackgroundModal">Change Background</button></li>
-                                    <li><button className='btn' data-bs-toggle="modal" data-bs-target="#AddNewCategoryModal">Add Category</button></li>
-                                    <li><button className='btn' data-bs-toggle="modal" data-bs-target="#AddNewSiteModal">Add WebSite</button></li>
-                    <li><button type="button" className="btn" data-bs-toggle="modal" data-bs-target="#aboutModal">
-                    About
-                </button></li>
-                    <li> <button className='btn' data-bs-toggle="modal" data-bs-target="#FeedbackModal">Feedback</button></li>
-                                </ul>
-                            </div>
-                            <div className='dropdown'>
-                                <button className='btn btn-info dropdown-toggle' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
-                                    Show My Categories
-                                </button>
-                                <ul className='dropdown-menu'>
-                                    {AllCategory.map((category) => (
-                                        <li key={category._id}>
-                                            <a className='dropdown-item' href={`#${category.Category.replace(/\s+/g, '-').toLowerCase()}`}>
-                                                {category.Category}
-                                            </a>
+                                {/* View Home */}
+                                <div className="dropend">
+                                    <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        View Home
+                                    </button>
+                                    <ul className="dropdown-menu">
+                                        <li>
+                                            <div className="Checkbox dropdown-item">
+                                                <input type="checkbox" checked={showHomeSites} onChange={(e) => setShowHomeSites(e.target.checked)} />Websites
+                                            </div>
                                         </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </div>
-                        :
-                        null
-                }
+                                        <li className='dropend'>
+                                            <button className="dropdown-item dropdown-toggle" onClick={handleSubmenuClick}>
+                                                Categories
+                                            </button>
+                                            <ul className={`dropdown-menu ${showSubmenu ? "show" : ""}`} style={{ position: "absolute", left: "100%", top: "0" }}>
+                                                {allCommonCategories.map((category) => (
+                                                    <li key={category._id}>
+                                                        <a className="dropdown-item" href={`#${category.Name.replace(/\s+/g, '-').toLowerCase()}`}>
+                                                            {category.Name}
+                                                        </a>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
 
-                {/* AdminFooter */}
-                {
-                    (AdminToken && !token) ?
-                        <div className='footer'>
-                            <div className='editCheckbox desktop'><input type='checkbox' checked={AdmineditMode} onChange={(e) => setAdminEditMode(e.target.checked)} />Edit Admin Page</div>
-                            <button type="button" className="btn btn-primary desktop" data-bs-toggle="modal" data-bs-target="#ShowFeedbackModal">Show Feedback</button>
-                            <button type="button" className="btn btn-primary desktop" data-bs-toggle="modal" data-bs-target="#changecommonbackgroundModal">Change Background</button>
-                            <button className='btn btn-primary desktop' data-bs-toggle="modal" data-bs-target="#AddCommonCategoryModal">Add Category</button>
-                            <button className='btn btn-primary desktop' data-bs-toggle="modal" data-bs-target="#AddCommonSiteModal">Add Site</button>
+                                {/* User Sites Category Dropdown */}
+                                <div className='dropend'>
+                                    <button className='btn dropdown-toggle' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
+                                        Show My Categories
+                                    </button>
+                                    <ul className='dropdown-menu'>
+                                        {AllCategory.map((category) => (
+                                            <li key={category._id}>
+                                                <a className='dropdown-item' href={`#${category.Category.replace(/\s+/g, '-').toLowerCase()}`}>
+                                                    {category.Category}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div></>
+                            :
+                            null
+                    }
 
-                            <div className="dropdown mobile">
-                                <button className="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Expand
+
+                    {
+                        AdminToken && !token ?
+                            <>
+                                {/* Admin Modify */}
+                                <div className="dropend">
+                                    <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Modify
+                                    </button>
+                                    <ul className="dropdown-menu">
+                                        <li>  <div className='Checkbox dropdown-item'><input type='checkbox' checked={AdmineditMode} onChange={(e) => setAdminEditMode(e.target.checked)} />Edit Admin Page</div></li>
+                                        <li> <button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#AddCommonSiteModal">Add Site</button></li>
+                                        <li> <button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#AddCommonCategoryModal">Add Category</button></li>
+                                        <li><button type="button" className="btn dropdown-item" data-bs-toggle="modal" data-bs-target="#changecommonbackgroundModal">Change Background</button></li>
+                                    </ul>
+                                </div>
+                                <button type="button" className="btn" data-bs-toggle="modal" data-bs-target="#ShowFeedbackModal">Show Feedback</button>
+                            </>
+                            :
+                            null
+                    }
+
+                    {
+                        !AdminToken && !token ?
+                            <>
+                                <button type="button" className="btn" data-bs-toggle="modal" data-bs-target="#aboutModal">
+                                    About
+                                </button>
+                                <button className='btn' data-bs-toggle="modal" data-bs-target="#FeedbackModal">Feedback</button></>
+                            :
+                            null
+                    }
+
+                    {
+                        token ?
+                            <>
+                                <button className='btn btn-danger' onClick={handleLogout}>Logout</button>
+                            </>
+                            :
+                            <>
+                                <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Categories
                                 </button>
                                 <ul className="dropdown-menu">
-                                    <li><div className='editCheckbox'><input type='checkbox' checked={AdmineditMode} onChange={(e) => setAdminEditMode(e.target.checked)} />Edit Admin Page</div></li>
-                                    <li><button type="button" className="btn" data-bs-toggle="modal" data-bs-target="#ShowFeedbackModal">Show Feedback</button></li>
-                                    <li><button type="button" className="btn" data-bs-toggle="modal" data-bs-target="#changecommonbackgroundModal">Change Background</button></li>
-                                    <li><button className='btn' data-bs-toggle="modal" data-bs-target="#AddCommonCategoryModal">Add Category</button></li>
-                                    <li><button className='btn ' data-bs-toggle="modal" data-bs-target="#AddCommonSiteModal">Add Site</button></li>
-                                </ul>
-                            </div>
-
-                            <div className="modal fade" id="ShowFeedbackModal" tabIndex="-1" aria-labelledby="ShowFeedbackModalLabel" aria-hidden="true">
-                                <div className="modal-dialog">
-                                    <div className="modal-content">
-                                        <div className="modal-header">
-                                            <h1 className="modal-title fs-5" id="ShowFeedbackModalLabel">FeedBacks</h1>
-                                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div className="modal-body">
-                                            {feedbacks.length === 0 ? (
-                                                <p>No feedback available.</p>
-                                            ) : (
-                                                <ul>
-                                                    {feedbacks.map((feedback, index) => (
-                                                        <li key={index}>
-                                                            <strong>{feedback.name}:</strong> {feedback.message}
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            )}
-                                        </div>
-                                        <div className="modal-footer">
-                                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div className="modal fade" id="changecommonbackgroundModal" tabIndex="-1" aria-labelledby="changecommonbackgroundModalLabel" aria-hidden="true">
-                                <div className="modal-dialog">
-                                    <div className="modal-content">
-                                        <div className="modal-header">
-                                            <h1 className="modal-title fs-5" id="changecommonbackgroundModalLabel">Change Background</h1>
-                                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div className="modal-body">
-                                            <input
-                                                type="text"
-                                                placeholder="Enter background image URL"
-                                                value={newBackgroundImage}
-                                                onChange={(e) => setNewBackgroundImage(e.target.value)}
-                                                className="form-control"
-                                            />
-                                        </div>
-                                        <div className="modal-footer">
-                                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="button" className="btn btn-primary" onClick={updateCommonBackground}>Save changes</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <div className="modal fade" id="AddCommonCategoryModal" tabIndex="-1" aria-labelledby="AddCommonCategoryModalLabel" aria-hidden="true">
-                                <div className="modal-dialog">
-                                    <form onSubmit={addCategory}> {/* Add the onSubmit handler */}
-                                        <div className="modal-content">
-                                            <div className="modal-header">
-                                                <h1 className="modal-title fs-5" id="AddCommonCategoryModalLabel">Add Category</h1>
-                                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div className="modal-body">
-                                                <input
-                                                    type="text"
-                                                    placeholder="Category Name"
-                                                    value={commonCategory.Name}
-                                                    onChange={e => setCommonCategory({ Name: e.target.value })}
-                                                    required
-                                                />
-                                            </div>
-                                            <div className="modal-footer">
-                                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" className="btn btn-primary">Add Category</button> {/* Submit button */}
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-
-
-                            <div className="modal fade" id="AddCommonSiteModal" tabIndex="-1" aria-labelledby="AddCommonSiteModalLabel" aria-hidden="true">
-                                <div className="modal-dialog">
-                                    <form onSubmit={addSite}>
-                                        <div className="modal-content">
-                                            <div className="modal-header">
-                                                <h1 className="modal-title fs-5" id="AddCommonSiteModalLabel">Add Site</h1>
-                                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div className="modal-body">
-                                                <input
-                                                    type="text"
-                                                    placeholder="Name"
-                                                    value={commonSite.Name}
-                                                    onChange={e => setCommonSite({ ...commonSite, Name: e.target.value })}
-                                                    required
-                                                />
-                                                <input
-                                                    type="text"
-                                                    placeholder="URL"
-                                                    value={commonSite.Url}
-                                                    onChange={e => setCommonSite({ ...commonSite, Url: e.target.value })}
-                                                    required
-                                                />
-                                                <input
-                                                    type="text"
-                                                    placeholder="Logo"
-                                                    value={commonSite.Logo}
-                                                    onChange={e => setCommonSite({ ...commonSite, Logo: e.target.value })}
-                                                    required
-                                                />
-                                                <select
-                                                    value={commonSite.Category}
-                                                    onChange={e => setCommonSite({ ...commonSite, Category: e.target.value })}
-                                                    required>
-                                                    <option value="">--Select Category--</option>
-                                                    {allCommonCategories.map((category, index) => (
-                                                        <option key={index} value={category.Name}>
-                                                            {category.Name}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                            <div className="modal-footer">
-                                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" className="btn btn-primary">Add Site</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        :
-                        null
-                }
-                <div className='Login'>
-                    {token && <h className="btn">{userName}</h>}
-<button type="button" className="btn btn-secondary mobileAboutFeedback" data-bs-toggle="modal" data-bs-target="#aboutModal">
-                    About
-                </button>
- <button className='btn btn-warning mobileAboutFeedback' data-bs-toggle="modal" data-bs-target="#FeedbackModal">Feedback</button>
-{
-                        !token && AdminToken ?
-                        null:
-                        <div className='dropdown'>
-                                <button className='btn btn-primary dropdown-toggle' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
-                                    Show All Categories
-                                </button>
-                                <ul className='dropdown-menu'>
                                     {allCommonCategories.map((category) => (
                                         <li key={category._id}>
-                                            <a className='dropdown-item' href={`#${category.Name.replace(/\s+/g, '-').toLowerCase()}`}>
+                                            <a className="dropdown-item" href={`#${category.Name.replace(/\s+/g, '-').toLowerCase()}`}>
                                                 {category.Name}
                                             </a>
                                         </li>
                                     ))}
                                 </ul>
-                            </div>
+                                <button className='btn btn-success' data-bs-toggle="modal" data-bs-target="#LoginModal">User Login</button>
+                                <button className='btn btn-danger' data-bs-toggle="modal" data-bs-target="#AdminModal">Admin</button>
+                            </>
                     }
-                    {token ? (
-                        <button className='btn btn-danger' onClick={handleLogout}>Logout</button>
-                    ) : (
-                        <button className='btn btn-primary' data-bs-toggle="modal" data-bs-target="#LoginModal">Login</button>
-                    )}
-                    
-                    <button className='btn btn-danger' data-bs-toggle="modal" data-bs-target="#AdminModal">Admin</button>
-                    <div className="modal fade" id="AdminModal" tabIndex="-1" aria-labelledby="AdminModalLabel" aria-hidden="true">
-                        <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h1 className="modal-title fs-5" id="AdminModalLabel">Admin Login</h1>
-                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div className="modal-body">
-                                    {!AdminToken ? (
-                                        <form onSubmit={handleAdminLogin}>
-                                            <label>Admin Username</label>
-                                            <input type="text" value={adminData.username} onChange={(e) => setAdminData({ ...adminData, username: e.target.value })} />
-                                            <label>Admin Password</label>
-                                            <input type="password" value={adminData.password} onChange={(e) => setAdminData({ ...adminData, password: e.target.value })} />
-                                            <button className='btn btn-warning mt-1' type="submit">Admin Login</button>
-                                        </form>
-                                    ) : (
-                                        <div>
-                                            <h5>Total Users: {users.length}</h5>
-                                            <table className="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Username</th>
-                                                        <th>Password</th>
-                                                        <th>PhoneNo</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {users.map((user, index) => (
-                                                        <tr key={index}>
-                                                            <td>{user.username}</td>
-                                                            <td>{user.password}</td>
-                                                            <td>{user.phoneno}</td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    )}
-                                </div>
-                                {AdminToken ?
-                                    <div className="modal-footer">
-                                        <button className='btn btn-warning' onClick={handleAdminLogout}>Logout</button>
-                                        <button className="btn btn-primary" data-bs-target="#AdminRegisterModal" data-bs-toggle="modal">Register</button>
-                                    </div>
-                                    :
-                                    null
-                                }
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="modal fade" id="AdminRegisterModal" aria-hidden="true" aria-labelledby="AdminRegisterModalLabel" tabIndex="-1">
-                        <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h1 className="modal-title fs-5" id="AdminRegisterModalLabel">Register New Admin</h1>
-                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div className="modal-body">
-                                    <form onSubmit={handleAdminRegister}>
-                                        <label>New Admin Username</label>
-                                        <input type="text" value={registerData.username} onChange={(e) => setRegisterData({ ...registerData, username: e.target.value })} />
-                                        <label>New Admin Password</label>
-                                        <input type="password" value={registerData.password} onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })} />
-                                        <button className='btn btn-warning mt-1' type="submit">Register</button>
-                                    </form>
-                                </div>
-                                <div className="modal-footer">
-                                    <button className="btn btn-primary" data-bs-target="#AdminModal" data-bs-toggle="modal">Back to Login</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
 
-            {/* Login Modal */}
-            <div className="modal fade" id="LoginModal" tabIndex="-1" aria-labelledby="LoginModalLabel" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="LoginModalLabel">Login</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <form onSubmit={handleLogin}>
-                            <div className="modal-body">
-                                <label>Username</label>
-                                <input type="text" value={loginData.username} onChange={(e) => setLoginData({ ...loginData, username: e.target.value })} required />
-                                <label>Password</label>
-                                <input type="password" value={loginData.password} onChange={(e) => setLoginData({ ...loginData, password: e.target.value })} required />
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" className="btn btn-primary">Login</button>
-                                <button className="btn btn-link" data-bs-target="#RegisterModal" data-bs-toggle="modal">New User?</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            <div className='Navigation'>
+                <logo>
+                    <img src='https://cdn-icons-png.flaticon.com/512/5988/5988117.png' alt='...' />
+                    {
+                        token ?
+                            <span>{userName}</span>
+                            : <>GLANCE</>
+                    }
+                </logo>
 
-            {/* Register Modal */}
-            <div className="modal fade" id="RegisterModal" tabIndex="-1" aria-labelledby="RegisterModalLabel" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="RegisterModalLabel">Register</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <form onSubmit={handleRegister}>
-                            <div className="modal-body">
-                                <label>Username</label>
-                                <input type="text" value={registerData.username} onChange={(e) => setRegisterData({ ...registerData, username: e.target.value })} required />
-                                <label>Password</label>
-                                <input type="password" value={registerData.password} onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })} required />
-                                <label>PhoneNo</label>
-                                <input type="number" value={registerData.phoneno} onChange={(e) => setRegisterData({ ...registerData, phoneno: e.target.value })} />
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" className="btn btn-primary">Register</button>
-                            </div>
-                        </form>
-                    </div>
+                <form className='Search' onSubmit={googleSearch}>
+                    <input id='search' type='text' placeholder='Google Search...' />
+                </form>
+
+                <div className='options'>
+                    {
+                        token ?
+                            <>
+                                {/* Users Modify */}
+                                <div className="dropdown">
+                                    <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Modify
+                                    </button>
+                                    <ul className="dropdown-menu">
+                                        <li><div className='Checkbox dropdown-item'><input type='checkbox' checked={editMode} onChange={(e) => setEditMode(e.target.checked)} />Edit Site</div></li>
+                                        <li><button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#AddNewSiteModal">Add Website</button></li>
+                                        <li><button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#AddNewCategoryModal">Add Category</button></li>
+                                        <li><button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#ChangeBackgroundModal">Change Background</button></li>
+                                    </ul>
+                                </div>
+
+                                {/* View Home */}
+                                <div className="dropdown">
+                                    <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        View Home
+                                    </button>
+                                    <ul className="dropdown-menu">
+                                        <li>
+                                            <div className="Checkbox dropdown-item">
+                                                <input type="checkbox" checked={showHomeSites} onChange={(e) => setShowHomeSites(e.target.checked)} />Websites
+                                            </div>
+                                        </li>
+                                        <li className='dropend'>
+                                            <button className="dropdown-item dropdown-toggle" onClick={handleSubmenuClick}>
+                                                Categories
+                                            </button>
+                                            <ul className={`dropdown-menu ${showSubmenu ? "show" : ""}`} style={{ position: "absolute", left: "100%", top: "0" }}>
+                                                {allCommonCategories.map((category) => (
+                                                    <li key={category._id}>
+                                                        <a className="dropdown-item" href={`#${category.Name.replace(/\s+/g, '-').toLowerCase()}`}>
+                                                            {category.Name}
+                                                        </a>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                {/* User Sites Category Dropdown */}
+                                <div className='dropdown'>
+                                    <button className='btn btn-primary dropdown-toggle' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
+                                        Show My Categories
+                                    </button>
+                                    <ul className='dropdown-menu'>
+                                        {AllCategory.map((category) => (
+                                            <li key={category._id}>
+                                                <a className='dropdown-item' href={`#${category.Category.replace(/\s+/g, '-').toLowerCase()}`}>
+                                                    {category.Category}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div></>
+                            :
+                            null
+                    }
+
+
+                    {
+                        AdminToken && !token ?
+                            <>
+                                {/* Admin Modify */}
+                                <div className="dropdown">
+                                    <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Modify
+                                    </button>
+                                    <ul className="dropdown-menu">
+                                        <li>  <div className='Checkbox dropdown-item'><input type='checkbox' checked={AdmineditMode} onChange={(e) => setAdminEditMode(e.target.checked)} />Edit Admin Page</div></li>
+                                        <li> <button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#AddCommonSiteModal">Add Site</button></li>
+                                        <li> <button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#AddCommonCategoryModal">Add Category</button></li>
+                                        <li><button type="button" className="btn dropdown-item" data-bs-toggle="modal" data-bs-target="#changecommonbackgroundModal">Change Background</button></li>
+                                    </ul>
+                                </div>
+                                <button type="button" className="btn btn-primary desktop" data-bs-toggle="modal" data-bs-target="#ShowFeedbackModal">Show Feedback</button>
+                            </>
+                            :
+                            null
+                    }
+
+                    {
+                        !AdminToken && !token ?
+                            <>
+                                <button type="button" className="btn btn-info" data-bs-toggle="modal" data-bs-target="#aboutModal">
+                                    About
+                                </button>
+                                <button className='btn btn-warning' data-bs-toggle="modal" data-bs-target="#FeedbackModal">Feedback</button></>
+                            :
+                            null
+                    }
+
+                    {
+                        token ?
+                            <>
+                                <button className='btn btn-danger' onClick={handleLogout}>Logout</button>
+                            </>
+                            :
+                            <>
+                                <button className="btn btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Categories
+                                </button>
+                                <ul className="dropdown-menu">
+                                    {allCommonCategories.map((category) => (
+                                        <li key={category._id}>
+                                            <a className="dropdown-item" href={`#${category.Name.replace(/\s+/g, '-').toLowerCase()}`}>
+                                                {category.Name}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                                <button className='btn btn-success' data-bs-toggle="modal" data-bs-target="#LoginModal">User Login</button>
+                                <button className='btn btn-danger' data-bs-toggle="modal" data-bs-target="#AdminModal">Admin</button>
+                            </>
+                    }
                 </div>
             </div>
 
             <div className='Site'>
+                {/* Users Sites */}
                 {
                     token ?
                         <>
                             <div className='Categories row'>
                                 {AllCategory.map((category, idx) => (
-                                    <div key={idx} id={category.Category.replace(/\s+/g, '-').toLowerCase()} className='Category col-3'>
-                                        {AllSite.filter(site => site.Category.trim().toLowerCase() === category.Category.trim().toLowerCase())
-                                            .map((site, index) => (
-                                                <div key={index} className='WebSite'>
-                                                    <a href={site.Url} target='_blank' rel="noreferrer"> <img src={site.Logo} alt='...' />{site.Name}</a>
-                                                </div>
-                                            ))
-                                        }
-                                        {
-                                            editMode && (
-                                                <button className='btn btn-outline-danger' onClick={() => deleteCategory(category._id)}> Delete Category:  {category.Category}</button>
-                                            )
-                                        }
+                                    <div key={idx} id={category.Category.replace(/\s+/g, '-').toLowerCase()} className='naming-problem'>
+                                        <p>{category.Category}</p>
+                                        <div className='Category'>
+                                            {AllSite.filter(site => site.Category.trim().toLowerCase() === category.Category.trim().toLowerCase())
+                                                .map((site, index) => (
+                                                    <div key={index} className='WebSite slideRightAnimation' style={{ animationDelay: `${1 + index * 0.2}s` }}>
+                                                        <a href={site.Url} target='_blank' rel="noreferrer"> <img src={site.Logo} alt='...' />{site.Name}</a>
+                                                    </div>
+                                                ))
+                                            }
+                                            {
+                                                editMode && (
+                                                    <button className='btn btn-outline-danger' onClick={() => deleteCategory(category._id)}> Delete Category:  {category.Category}</button>
+                                                )
+                                            }
+                                        </div>
+
                                     </div>
                                 ))}
                             </div>
                             {/* Display All Sites */}
                             <div className='AllSites row'>
                                 {AllSite.map((Element, idx) => (
-                                    <div key={idx} className='WebSite col-1'>
+                                    <div key={idx} className='WebSite'>
                                         <a href={Element.Url} target='_blank' rel="noreferrer"><img src={Element.Logo} alt='...' />{Element.Name}</a>
                                         {
                                             editMode && (
@@ -881,25 +797,29 @@ export default function IndexPage() {
                         </>
                         : null
                 }
+
+                {/* Common Sites */}
                 {
                     (!token || (token && showHomeSites)) && (
                         <>
                             <div className='Categories row'>
                                 {allCommonCategories.map((category, idx) => (
-                                    <div key={idx} id={category.Name.replace(/\s+/g, '-').toLowerCase()} className='Category'>
-                                        {allSites.filter(site => site.Category.trim().toLowerCase() === category.Name.trim().toLowerCase())
-                                            .map((site, index) => (
-                                                <div key={index} className='WebSite'>
-                                                    <a href={site.Url} target='_blank' rel="noreferrer"><img src={site.Logo} alt='...' />{site.Name}</a>
-                                                </div>
-                                            ))
-                                        }
-                                        {
-                                            (AdminToken && AdmineditMode) ?
-                                                <button className='btn btn-outline-danger' onClick={() => deleteCommonCategory(category._id)}> Delete Category: {category.Name}</button>
-                                                :
-                                                null
-                                        }
+                                    <div key={idx} id={category.Name.replace(/\s+/g, '-').toLowerCase()} className='naming-problem'>
+                                        <p>{category.Name}</p>
+                                        <div className='Category'>
+                                            {allSites.filter(site => site.Category.trim().toLowerCase() === category.Name.trim().toLowerCase())
+                                                .map((site, index) => (
+                                                    <div key={index} className='WebSite slideRightAnimation' style={{ animationDelay: `${1 + index * 0.2}s` }}>
+                                                        <a href={site.Url} target='_blank' rel="noreferrer"> <img src={site.Logo} alt='...' />{site.Name}</a>
+                                                    </div>
+                                                ))
+                                            }
+                                            {
+                                                editMode && (
+                                                    <button className='btn btn-outline-danger' onClick={() => deleteCommonCategory(category._id)}> Delete Category:  {category.Category}</button>
+                                                )
+                                            }
+                                        </div>
 
                                     </div>
                                 ))}
@@ -907,7 +827,7 @@ export default function IndexPage() {
 
                             <div className='AllSites row'>
                                 {allSites.map((site, idx) => (
-                                    <div key={idx} className='WebSite col-1'>
+                                    <div key={idx} className='WebSite'>
                                         <a href={site.Url} target='_blank' rel="noreferrer"><img src={site.Logo} alt='Site Logo' />{site.Name}</a>
                                         {
                                             (AdminToken && AdmineditMode) ?
@@ -977,88 +897,87 @@ export default function IndexPage() {
                     )
                 }
             </div>
-            <div className='footer'>
 
-                <button type="button" className="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#aboutModal">
-                    About
-                </button>
+            {/* MODALS */}
 
-                <div className="modal fade" id="aboutModal" tabIndex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
-                    <div className="modal-dialog modal-lg">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h1 className="modal-title fs-5" id="aboutModalLabel">About</h1>
-                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            {/* About Modal */}
+            <div className="modal fade" id="aboutModal" tabIndex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+                <div className="modal-dialog modal-lg">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="aboutModalLabel">About</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <div className='AboutWebsite'>
+                                <p>
+                                    <strong>W</strong>elcome to our website, designed to enhance your browsing experience and save you time.
+                                    With our platform, you can easily search for and save your favorite websites without the hassle of searching each time.
+                                    Our user-friendly interface allows you to categorize your saved sites, add unique logos, and customize your experience to suit your needs.
+                                    Plus, you can edit all details to keep your information up to date and even change the wallpaper to personalize your space.
+                                    This website can be accessed anywhere, on any device—whether it's a mobile phone, tablet, or laptop.
+                                    Simplify your online navigation and make the most of your web experience with us!
+                                </p>
+
+                                <p>If you don't have an account or prefer not to create one, you can still enjoy quick access to our pre-saved websites directly from the home screen. Simply browse through the curated categories and popular sites we've saved to make it easy for you to find essential websites, no sign-up needed!</p>
+                                <br />
+                                <h4>Quick Start Guide</h4>
+                                <h5>Sign Up:</h5>
+                                Go to Login, select New User? Register, and create your account.<br /><br />
+                                <h5>Log In:</h5>
+                                Use your new credentials to log in.<br /><br />
+                                <h5>Add Websites:</h5>
+                                On your dashboard, start adding websites to your personal collection.<br /><br />
+                                <h5>Organize & Customize:</h5>
+                                Add categories, logos, and set a background for easy access.<br />
+                                Now, all your favorite sites are saved and easy to find!
                             </div>
-                            <div className="modal-body">
-                                <div className='AboutWebsite'>
-                                    <p>
-                                        <strong>W</strong>elcome to our website, designed to enhance your browsing experience and save you time.
-                                        With our platform, you can easily search for and save your favorite websites without the hassle of searching each time.
-                                        Our user-friendly interface allows you to categorize your saved sites, add unique logos, and customize your experience to suit your needs.
-                                        Plus, you can edit all details to keep your information up to date and even change the wallpaper to personalize your space.
-                                        This website can be accessed anywhere, on any device—whether it's a mobile phone, tablet, or laptop.
-                                        Simplify your online navigation and make the most of your web experience with us!
-                                    </p>
-
-                                    <p>If you don't have an account or prefer not to create one, you can still enjoy quick access to our pre-saved websites directly from the home screen. Simply browse through the curated categories and popular sites we've saved to make it easy for you to find essential websites, no sign-up needed!</p>
-                                    <br />
-                                    <h4>Quick Start Guide</h4>
-                                    <h5>Sign Up:</h5>
-                                    Go to Login, select New User? Register, and create your account.<br /><br />
-                                    <h5>Log In:</h5>
-                                    Use your new credentials to log in.<br /><br />
-                                    <h5>Add Websites:</h5>
-                                    On your dashboard, start adding websites to your personal collection.<br /><br />
-                                    <h5>Organize & Customize:</h5>
-                                    Add categories, logos, and set a background for easy access.<br />
-                                    Now, all your favorite sites are saved and easy to find!
+                            <div className='AboutAdmin'>
+                                <div className='adminDetails'>
+                                    <strong>Srinivas Rao</strong>
+                                    <strong2>Contact Details</strong2> <a href="tel:9752375075">9752375075</a>
+                                    <a href="mailto:cvipsecr@gmail.com">cvipsecr@gmail.com</a>
                                 </div>
-                                <div className='AboutAdmin'>
-                                    <div className='adminDetails'>
-                                        <strong>Srinivas Rao</strong>
-                                        <strong2>Contact Details</strong2> <a href="tel:9752375075">9752375075</a>
-                                        <a href="mailto:cvipsecr@gmail.com">cvipsecr@gmail.com</a>
-                                    </div>
-                                    <img src={srinivas} alt='...' />
-                                </div>
-                            </div>
-                            <div className="modal-footer privacy">
-                                Your privacy is our top priority. All personal information and account details provided on this website are securely stored and protected against unauthorized access. We adhere to strict privacy standards, ensuring that your data remains safe and is never shared with third parties. Enjoy a secure experience every time you visit.
+                                <img src={srinivas} alt='...' />
                             </div>
                         </div>
-                    </div>
-                </div>
-                <button className='btn btn-warning' data-bs-toggle="modal" data-bs-target="#FeedbackModal">Feedback</button>
-                <div className="modal fade" id="FeedbackModal" tabIndex="-1" aria-labelledby="FeedbackModalLabel" aria-hidden="true">
-                    <div className="modal-dialog">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="FeedbackModalLabel">Submit Feedback</h5>
-                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div className="modal-body">
-                                <form onSubmit={handleFeedbackSubmit}>
-                                    <div className="mb-3">
-                                        <label htmlFor="name" className="form-label">Name</label>
-                                        <input type="text" className="form-control" id="name" required />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label htmlFor="message" className="form-label">Message</label>
-                                        <textarea className="form-control" id="message" required></textarea>
-                                    </div>
-                                    <div className="modal-footer">
-                                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" className="btn btn-primary">Submit Feedback</button>
-                                    </div>
-                                </form>
-                            </div>
+                        <div className="modal-footer privacy">
+                            Your privacy is our top priority. All personal information and account details provided on this website are securely stored and protected against unauthorized access. We adhere to strict privacy standards, ensuring that your data remains safe and is never shared with third parties. Enjoy a secure experience every time you visit.
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Modals */}
+            {/* Feedback Modal */}
+            <div className="modal fade" id="FeedbackModal" tabIndex="-1" aria-labelledby="FeedbackModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="FeedbackModalLabel">Submit Feedback</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <form onSubmit={handleFeedbackSubmit}>
+                                <div className="mb-3">
+                                    <label htmlFor="name" className="form-label">Name</label>
+                                    <input type="text" className="form-control" id="name" required />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="message" className="form-label">Message</label>
+                                    <textarea className="form-control" id="message" required></textarea>
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" className="btn btn-primary">Submit Feedback</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            {/* Change User Background Modal */}
             <div className="modal fade" id="ChangeBackgroundModal" tabIndex="-1" aria-labelledby="ChangeBackgroundModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -1084,7 +1003,7 @@ export default function IndexPage() {
                 </div>
             </div>
 
-            {/* Add New Category Modal */}
+            {/* Add New User Category Modal */}
             <div className="modal fade" id="AddNewCategoryModal" tabIndex="-1" aria-labelledby="AddNewCategoryModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -1105,7 +1024,7 @@ export default function IndexPage() {
                 </div>
             </div>
 
-            {/* Add New Site Modal */}
+            {/* Add New User Site Modal */}
             <div className="modal fade" id="AddNewSiteModal" tabIndex="-1" aria-labelledby="AddNewSiteModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -1133,6 +1052,270 @@ export default function IndexPage() {
                     </div>
                 </div>
             </div>
+
+            {/* Show Feedback Modal */}
+            <div className="modal fade" id="ShowFeedbackModal" tabIndex="-1" aria-labelledby="ShowFeedbackModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="ShowFeedbackModalLabel">FeedBacks</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            {feedbacks.length === 0 ? (
+                                <p>No feedback available.</p>
+                            ) : (
+                                <ul>
+                                    {feedbacks.map((feedback, index) => (
+                                        <li key={index}>
+                                            <strong>{feedback.name}:</strong> {feedback.message}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Change Common Background Modal */}
+            <div className="modal fade" id="changecommonbackgroundModal" tabIndex="-1" aria-labelledby="changecommonbackgroundModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="changecommonbackgroundModalLabel">Change Background</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <input
+                                type="text"
+                                placeholder="Enter background image URL"
+                                value={newBackgroundImage}
+                                onChange={(e) => setNewBackgroundImage(e.target.value)}
+                                className="form-control"
+                            />
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-primary" onClick={updateCommonBackground}>Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Add Common Category Modal */}
+            <div className="modal fade" id="AddCommonCategoryModal" tabIndex="-1" aria-labelledby="AddCommonCategoryModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <form onSubmit={addCategory}> {/* Add the onSubmit handler */}
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h1 className="modal-title fs-5" id="AddCommonCategoryModalLabel">Add Category</h1>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div className="modal-body">
+                                <input
+                                    type="text"
+                                    placeholder="Category Name"
+                                    value={commonCategory.Name}
+                                    onChange={e => setCommonCategory({ Name: e.target.value })}
+                                    required
+                                />
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" className="btn btn-primary">Add Category</button> {/* Submit button */}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {/* Add Common Site Modal */}
+            <div className="modal fade" id="AddCommonSiteModal" tabIndex="-1" aria-labelledby="AddCommonSiteModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <form onSubmit={addSite}>
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h1 className="modal-title fs-5" id="AddCommonSiteModalLabel">Add Site</h1>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div className="modal-body">
+                                <input
+                                    type="text"
+                                    placeholder="Name"
+                                    value={commonSite.Name}
+                                    onChange={e => setCommonSite({ ...commonSite, Name: e.target.value })}
+                                    required
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="URL"
+                                    value={commonSite.Url}
+                                    onChange={e => setCommonSite({ ...commonSite, Url: e.target.value })}
+                                    required
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="Logo"
+                                    value={commonSite.Logo}
+                                    onChange={e => setCommonSite({ ...commonSite, Logo: e.target.value })}
+                                    required
+                                />
+                                <select
+                                    value={commonSite.Category}
+                                    onChange={e => setCommonSite({ ...commonSite, Category: e.target.value })}
+                                    required>
+                                    <option value="">--Select Category--</option>
+                                    {allCommonCategories.map((category, index) => (
+                                        <option key={index} value={category.Name}>
+                                            {category.Name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" className="btn btn-primary">Add Site</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {/* Admin Modal */}
+            <div className="modal fade" id="AdminModal" tabIndex="-1" aria-labelledby="AdminModalLabel" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="AdminModalLabel">Admin Login</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            {!AdminToken ? (
+                                <form onSubmit={handleAdminLogin}>
+                                    <label>Admin Username</label>
+                                    <input type="text" value={adminData.username} onChange={(e) => setAdminData({ ...adminData, username: e.target.value })} />
+                                    <label>Admin Password</label>
+                                    <input type="password" value={adminData.password} onChange={(e) => setAdminData({ ...adminData, password: e.target.value })} />
+                                    <button className='btn btn-primary mt-1' type="submit">Admin Login</button>
+                                </form>
+                            ) : (
+                                <div>
+                                    <h5>Total Users: {users.length}</h5>
+                                    <table className="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Username</th>
+                                                <th>Password</th>
+                                                <th>PhoneNo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {users.map((user, index) => (
+                                                <tr key={index}>
+                                                    <td>{user.username}</td>
+                                                    <td>{user.password}</td>
+                                                    <td>{user.phoneno}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
+                        </div>
+                        {
+                            AdminToken ?
+                                <div className="modal-footer">
+                                    <button className='btn btn-warning' onClick={handleAdminLogout}>Logout</button>
+                                    <button className="btn btn-primary" data-bs-target="#AdminRegisterModal" data-bs-toggle="modal">Register</button>
+                                </div>
+                                :
+                                null
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+            {/* Admin Register Modal */}
+            <div className="modal fade" id="AdminRegisterModal" aria-hidden="true" aria-labelledby="AdminRegisterModalLabel" tabIndex="-1">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="AdminRegisterModalLabel">Register New Admin</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <form onSubmit={handleAdminRegister}>
+                                <label>New Admin Username</label>
+                                <input type="text" value={registerData.username} onChange={(e) => setRegisterData({ ...registerData, username: e.target.value })} />
+                                <label>New Admin Password</label>
+                                <input type="password" value={registerData.password} onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })} />
+                                <button className='btn btn-warning mt-1' type="submit">Register</button>
+                            </form>
+                        </div>
+                        <div className="modal-footer">
+                            <button className="btn btn-primary" data-bs-target="#AdminModal" data-bs-toggle="modal">Back to Login</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            {/* Login Modal */}
+            <div className="modal fade" id="LoginModal" tabIndex="-1" aria-labelledby="LoginModalLabel" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="LoginModalLabel">Login</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form onSubmit={handleLogin}>
+                            <div className="modal-body">
+                                <label>Username</label>
+                                <input type="text" value={loginData.username} onChange={(e) => setLoginData({ ...loginData, username: e.target.value })} required />
+                                <label>Password</label>
+                                <input type="password" value={loginData.password} onChange={(e) => setLoginData({ ...loginData, password: e.target.value })} required />
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" className="btn btn-primary">Login</button>
+                                <button className="btn btn-link" data-bs-target="#RegisterModal" data-bs-toggle="modal">New User?</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            {/* Register Modal */}
+            <div className="modal fade" id="RegisterModal" tabIndex="-1" aria-labelledby="RegisterModalLabel" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="RegisterModalLabel">Register</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form onSubmit={handleRegister}>
+                            <div className="modal-body">
+                                <label>Username</label>
+                                <input type="text" value={registerData.username} onChange={(e) => setRegisterData({ ...registerData, username: e.target.value })} required />
+                                <label>Password</label>
+                                <input type="password" value={registerData.password} onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })} required />
+                                <label>PhoneNo</label>
+                                <input type="number" value={registerData.phoneno} onChange={(e) => setRegisterData({ ...registerData, phoneno: e.target.value })} />
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" className="btn btn-primary">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </div>
     );
 }
