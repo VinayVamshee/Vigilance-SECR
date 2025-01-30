@@ -587,7 +587,7 @@ export default function IndexPage() {
                     {
                         token ?
                             <span>{userName}</span>
-                            : <>GLANCE</>
+                            : <>Vigilance/SECR</>
                     }
                 </logo>
 
