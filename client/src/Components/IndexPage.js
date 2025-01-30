@@ -454,7 +454,7 @@ export default function IndexPage() {
                 {
                     token ?
                         <span>{userName}</span>
-                        : <span>GLANCE</span>
+                        : <span>VIGILANCE/SECR</span>
                 }
             </div>
             <div className="collapse" id="Navigation-Collapse">
