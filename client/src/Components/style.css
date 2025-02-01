@@ -306,6 +306,9 @@
     justify-content: space-between;
     align-items: center;
     padding-bottom: 1px;
+    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.241);
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .AboutAdmin .adminDetails {
@@ -316,12 +319,11 @@
 
 .adminDetails strong {
     font-size: xx-large;
-    font-style: italic;
+    color: rgb(255, 0, 0);
 }
 
 .adminDetails strong2 {
     font-size: x-large;
-    font-style: italic;
 }
 
 .privacy {
@@ -332,7 +334,10 @@
 
 .adminDetails a {
     text-decoration: none;
-    font-style: italic;
+    color: blue;
+}
+.adminDetails a:hover {
+    color: violet;
 }
 
 .AboutAdmin img {
@@ -342,10 +347,8 @@
 
 .AboutWebsite {
     font-size: larger;
-    font-style: italic;
     padding: 3px;
     text-align: justify;
-    border-bottom: 1px solid black;
 }
 
 .AboutWebsite strong {
@@ -353,16 +356,30 @@
 }
 
 .AboutWebsite p {
-    border-bottom: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.211);
 }
 
 .AboutWebsite h4 {
     font-weight: bold;
-    text-decoration: underline;
+    color: red;
+    padding: 3px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.211);
+    width: fit-content;
 }
 
 .AboutWebsite h5 {
     font-weight: bold;
+    color: blue;
+    width: fit-content;
+}
+
+.QuickGuide {
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.211);
 }
 
 
