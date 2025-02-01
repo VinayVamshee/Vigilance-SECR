@@ -77,7 +77,7 @@ export default function Home({ setPage }) {
                 <form className='Search' onSubmit={googleSearch}>
                     <input id='search' type='text' placeholder='Google Search...' />
                 </form>
-                <span>VIGILANCE - SECR</span>
+                <span>Indian Railway</span>
 
             </div>
 
@@ -92,7 +92,7 @@ export default function Home({ setPage }) {
 
             <div className='Navigation'>
                 <logo>
-                    <img src='https://cdn-icons-png.flaticon.com/512/5988/5988117.png' alt='...' />Vigilance - SECR
+                    <img src='https://cdn-icons-png.flaticon.com/512/5988/5988117.png' alt='...' />Indian Railway
                 </logo>
 
                 <form className='Search' onSubmit={googleSearch}>
@@ -108,12 +108,14 @@ export default function Home({ setPage }) {
             </div>
 
             <div className='content'>
-                <h1>VIGILANCE BILASPUR SOUTH EAST CENTRAL RAILWAY</h1>
+                <h1>VIGILANCE BRANCH
+                    <h3>South East Central Railway <br />Bilaspur</h3>
+                </h1>
                 <div id="carouselExampleAutoplaying" className="carousel custom-carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
                     <div className="carousel-inner">
                         {images.map((image, index) => (
                             <div className={`carousel-item ${index === 0 ? 'active' : ''}`} key={image._id}>
-                                <img src={image.imageUrl} className="d-block" alt="..." />
+                                <img src={image.imageUrl} className="" alt="..." />
                             </div>
                         ))}
                     </div>
@@ -126,9 +128,9 @@ export default function Home({ setPage }) {
                         <span className="visually-hidden">Next</span>
                     </button>
                 </div>
-
-                <button className="btn btn-dark " onClick={() => setPage("index")}>
-                    Go to Websites
+                <p>A Window for Indian Railway Information</p>
+                <button className="btn btn-dark shadow-lg" onClick={() => setPage("index")}>
+                    Proceed
                 </button>
 
                 {
@@ -185,13 +187,14 @@ export default function Home({ setPage }) {
                             </div>
                             <div className='AboutAdmin'>
                                 <div className='adminDetails'>
-                                    <strong>SRINIVAS RAO</strong>
-                                    <strong2>Contact Details</strong2> <a href="tel:9752375075">9752375075</a>
+                                    <strong>Srinivas Rao</strong>
+                                    <a href="tel:9752375075">9752375075</a>
                                     <a href="mailto:cvipsecr@gmail.com">cvipsecr@gmail.com</a>
                                 </div>
                             </div>
                         </div>
                         <div className="modal-footer privacy">
+                            <strong2>Disclaimer</strong2>
                             This website is intended solely for educational and informational purposes. All links to government websites and railway websites are provided for easy access and convenience. This website should not be referenced in any official or legal context, and the content provided should not be quoted or used in any legal matters. We do not endorse or promote any misuse of the resources linked on this website. The information provided is for knowledge sharing and public access only.
                         </div>
                     </div>
