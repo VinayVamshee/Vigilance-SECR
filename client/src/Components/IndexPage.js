@@ -485,7 +485,7 @@ export default function IndexPage({ setPage }) {
                 {
                     token ?
                         <span>{userName}</span>
-                        : <span>Indian Railway</span>
+                        : <span onClick={() => setPage("home")}>Indian Railway</span>
                 }
             </div>
             <div className="collapse" id="Navigation-Collapse">
