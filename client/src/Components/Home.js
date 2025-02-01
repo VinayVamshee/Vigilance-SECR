@@ -5,7 +5,7 @@ export default function Home({ setPage }) {
 
     const [images, setImages] = useState([]);
     useEffect(() => {
-        axios.get('http://localhost:3001/images')
+        axios.get('https://vigilance-secr-server.vercel.app/images')
             .then((response) => {
                 setImages(response.data);
             })
@@ -19,7 +19,7 @@ export default function Home({ setPage }) {
     // Handle delete request
     const handleDeleteImage = async (id) => {
         try {
-            await axios.delete(`http://localhost:3001/images/${id}`);
+            await axios.delete(`https://vigilance-secr-server.vercel.app/images/${id}`);
             setImages(images.filter(image => image._id !== id));  // Remove deleted image from state
         } catch (error) {
             console.error('Error deleting image:', error);
@@ -34,7 +34,7 @@ export default function Home({ setPage }) {
     useEffect(() => {
         const fetchCommonBackground = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/getCommonBackground');
+                const response = await axios.get('https://vigilance-secr-server.vercel.app/getCommonBackground');
                 setCommonBackground(response.data.backgroundImage || defaultBackgroundColor);
                 setBackgroundImage(response.data.backgroundImage || defaultBackgroundColor);
             } catch (error) {
@@ -59,7 +59,7 @@ export default function Home({ setPage }) {
         const message = event.target.message.value;
 
         try {
-            await axios.post('http://localhost:3001/feedback', { name, message });
+            await axios.post('https://vigilance-secr-server.vercel.app/feedback', { name, message });
             alert('Thank You for your valuable feedback.');
         } catch (error) {
             console.error('Error submitting feedback:', error);
