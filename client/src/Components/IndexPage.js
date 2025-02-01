@@ -3,7 +3,7 @@ import axios from 'axios';
 import './style.css'
 import srinivas from './SrinivasRao.png'
 
-export default function IndexPage() {
+export default function IndexPage({ setPage }) {
     const [Site, setSite] = useState({
         Name: ' ',
         Url: ' ',
@@ -25,7 +25,7 @@ export default function IndexPage() {
     const AddNewSite = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("https://vigilance-secr-server.vercel.app/AddNewSite", Site, {
+            const response = await axios.post("http://localhost:3001/AddNewSite", Site, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setAllSite([...AllSite, response.data]);
@@ -43,7 +43,7 @@ export default function IndexPage() {
         }
 
         try {
-            await axios.delete(`https://vigilance-secr-server.vercel.app/DeleteSite/${id}`, {
+            await axios.delete(`http://localhost:3001/DeleteSite/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setAllSite(AllSite.filter(site => site._id !== id));
@@ -57,7 +57,7 @@ export default function IndexPage() {
     const AddNewCategory = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("https://vigilance-secr-server.vercel.app/AddNewCategory", Category, {
+            const response = await axios.post("http://localhost:3001/AddNewCategory", Category, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setAllCategory([...AllCategory, response.data]);
@@ -78,11 +78,11 @@ export default function IndexPage() {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("https://vigilance-secr-server.vercel.app/login", loginData);
+            const response = await axios.post("http://localhost:3001/login", loginData);
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('username', response.data.user?.username || 'user');
             setUserName(response.data.user?.username || 'user');
-            const userResponse = await axios.get("https://vigilance-secr-server.vercel.app/getUserBackground", {
+            const userResponse = await axios.get("http://localhost:3001/getUserBackground", {
                 headers: { Authorization: `Bearer ${response.data.token}` }
             });
 
@@ -97,7 +97,7 @@ export default function IndexPage() {
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("https://vigilance-secr-server.vercel.app/register", registerData);
+            await axios.post("http://localhost:3001/register", registerData);
             alert("Registration Successful. Please login.");
             window.location.reload();
         } catch (error) {
@@ -110,7 +110,7 @@ export default function IndexPage() {
         const fetchSites = async () => {
             if (!token) return;
             try {
-                const response = await axios.get('https://vigilance-secr-server.vercel.app/GetSite', {
+                const response = await axios.get('http://localhost:3001/GetSite', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setAllSite(response.data);
@@ -125,7 +125,7 @@ export default function IndexPage() {
         const fetchCategories = async () => {
             if (!token) return;
             try {
-                const response = await axios.get('https://vigilance-secr-server.vercel.app/GetCategory', {
+                const response = await axios.get('http://localhost:3001/GetCategory', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setAllCategory(response.data);
@@ -165,7 +165,7 @@ export default function IndexPage() {
     const handleUpdate = async () => {
         try {
             // eslint-disable-next-line
-            const updateResponse = await axios.put(`https://vigilance-secr-server.vercel.app/sites/${EditSite._id}`, {
+            const updateResponse = await axios.put(`http://localhost:3001/sites/${EditSite._id}`, {
                 Name: EditSite.Name,
                 Url: EditSite.Url,
                 Logo: EditSite.Logo,
@@ -173,7 +173,7 @@ export default function IndexPage() {
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            const response = await axios.get('https://vigilance-secr-server.vercel.app/GetSite', {
+            const response = await axios.get('http://localhost:3001/GetSite', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setAllSite(response.data);
@@ -187,7 +187,7 @@ export default function IndexPage() {
     const handleAdminLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("https://vigilance-secr-server.vercel.app/admin/login", adminData);
+            const response = await axios.post("http://localhost:3001/admin/login", adminData);
             localStorage.setItem('AdminToken', response.data.token);
             window.location.reload();
         } catch (error) {
@@ -200,7 +200,7 @@ export default function IndexPage() {
         e.preventDefault();
         try {
             // eslint-disable-next-line
-            const response = await axios.post("https://vigilance-secr-server.vercel.app/admin/register", registerData);
+            const response = await axios.post("http://localhost:3001/admin/register", registerData);
             alert("Admin registration successful!");
         } catch (error) {
             console.error("Admin registration failed:", error.response?.data || error.message);
@@ -213,7 +213,7 @@ export default function IndexPage() {
         const fetchUsers = async () => {
             if (AdminToken) {
                 try {
-                    const response = await axios.get('https://vigilance-secr-server.vercel.app/getAllUsers', {
+                    const response = await axios.get('http://localhost:3001/getAllUsers', {
                         headers: { Authorization: `Bearer ${AdminToken}` }
                     });
                     setUsers(response.data);
@@ -229,7 +229,7 @@ export default function IndexPage() {
     useEffect(() => {
         const fetchFeedbacks = async () => {
             try {
-                const response = await axios.get('https://vigilance-secr-server.vercel.app/getfeedback');
+                const response = await axios.get('http://localhost:3001/getfeedback');
                 setFeedbacks(response.data);
             } catch (error) {
                 console.error('Error fetching feedbacks:', error);
@@ -251,7 +251,7 @@ export default function IndexPage() {
     const addSite = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://vigilance-secr-server.vercel.app/addSite', commonSite);
+            const response = await axios.post('http://localhost:3001/addSite', commonSite);
             setSites([...sites, response.data]);
             setCommonSite({ Name: '', Url: '', Logo: '', Category: '' });
         } catch (error) {
@@ -263,7 +263,7 @@ export default function IndexPage() {
 
     const handleCommonSiteUpdate = async () => {
         try {
-            const response = await axios.put(`https://vigilance-secr-server.vercel.app/editCommonSite/${editCommonSite._id}`, editCommonSite);
+            const response = await axios.put(`http://localhost:3001/editCommonSite/${editCommonSite._id}`, editCommonSite);
             setSites(prevSites => prevSites.map(site => site._id === editCommonSite._id ? response.data : site));
         } catch (error) {
             console.error('Error updating site:', error);
@@ -278,7 +278,7 @@ export default function IndexPage() {
             return;
         }
         try {
-            await axios.delete(`https://vigilance-secr-server.vercel.app/deletecommonsite/${siteId}`);
+            await axios.delete(`http://localhost:3001/deletecommonsite/${siteId}`);
             setSites(prevSites => prevSites.filter(site => site._id !== siteId));
         } catch (error) {
             console.error('Error deleting site:', error);
@@ -295,7 +295,7 @@ export default function IndexPage() {
     const addCategory = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://vigilance-secr-server.vercel.app/addCategory', commonCategory);
+            const response = await axios.post('http://localhost:3001/addCategory', commonCategory);
             setCommonCategories([...commonCategories, response.data]);
             alert('Category added successfully!');
         } catch (error) {
@@ -308,10 +308,10 @@ export default function IndexPage() {
     useEffect(() => {
         const fetchSitesAndCategories = async () => {
             try {
-                const sitesResponse = await axios.get('https://vigilance-secr-server.vercel.app/getAllSites');
+                const sitesResponse = await axios.get('http://localhost:3001/getAllSites');
                 setAllSites(sitesResponse.data);
 
-                const response = await axios.get('https://vigilance-secr-server.vercel.app/getAllCommonCategories');
+                const response = await axios.get('http://localhost:3001/getAllCommonCategories');
                 setAllCommonCategories(response.data);
             } catch (error) {
                 console.error('Error fetching sites or categories', error);
@@ -330,7 +330,7 @@ export default function IndexPage() {
             return;
         }
         try {
-            await axios.delete(`https://vigilance-secr-server.vercel.app/deleteCommonCategory/${categoryId}`);
+            await axios.delete(`http://localhost:3001/deleteCommonCategory/${categoryId}`);
         } catch (error) {
             console.error('Error deleting category:', error);
             alert('Failed to delete category. Please try again.');
@@ -344,7 +344,7 @@ export default function IndexPage() {
         const message = event.target.message.value;
 
         try {
-            await axios.post('https://vigilance-secr-server.vercel.app/feedback', { name, message });
+            await axios.post('http://localhost:3001/feedback', { name, message });
             alert('Thank You for your valuable feedback.');
         } catch (error) {
             console.error('Error submitting feedback:', error);
@@ -359,7 +359,7 @@ export default function IndexPage() {
             return; // Exit the function if the user clicks "Cancel"
         }
         try {
-            await axios.delete(`https://vigilance-secr-server.vercel.app/DeleteCategory/${categoryId}`, {
+            await axios.delete(`http://localhost:3001/DeleteCategory/${categoryId}`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
@@ -380,7 +380,7 @@ export default function IndexPage() {
     const saveUserBackground = async () => {
         try {
             // eslint-disable-next-line
-            const response = await axios.post("https://vigilance-secr-server.vercel.app/saveUserBackground", { backgroundImage }, {
+            const response = await axios.post("http://localhost:3001/saveUserBackground", { backgroundImage }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             alert("Background image saved successfully!");
@@ -392,7 +392,7 @@ export default function IndexPage() {
 
     const updateCommonBackground = async () => {
         try {
-            await axios.post('https://vigilance-secr-server.vercel.app/saveCommonBackground', { backgroundImage: newBackgroundImage });
+            await axios.post('http://localhost:3001/saveCommonBackground', { backgroundImage: newBackgroundImage });
             setCommonBackground(newBackgroundImage);
             alert("Common background updated successfully!");
             window.location.reload();
@@ -405,7 +405,7 @@ export default function IndexPage() {
     useEffect(() => {
         const fetchUserBackground = async () => {
             try {
-                const response = await axios.get('https://vigilance-secr-server.vercel.app/getUserBackground', {
+                const response = await axios.get('http://localhost:3001/getUserBackground', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setBackgroundImage(response.data.backgroundImage || defaultBackgroundColor);
@@ -417,7 +417,7 @@ export default function IndexPage() {
 
         const fetchCommonBackground = async () => {
             try {
-                const response = await axios.get('https://vigilance-secr-server.vercel.app/getCommonBackground');
+                const response = await axios.get('http://localhost:3001/getCommonBackground');
                 setCommonBackground(response.data.backgroundImage || defaultBackgroundColor);
                 setBackgroundImage(response.data.backgroundImage || defaultBackgroundColor);
             } catch (error) {
@@ -441,6 +441,37 @@ export default function IndexPage() {
         setShowSubmenu(!showSubmenu);
     };
 
+    const [imageUrl, setImageUrl] = useState('');
+    const [images, setImages] = useState([]);
+    useEffect(() => {
+        axios.get('http://localhost:3001/images')
+            .then((response) => {
+                setImages(response.data);
+            })
+            .catch((error) => {
+                console.error('There was an error fetching the images!', error);
+            });
+    }, []);
+
+    // Handle the form submit to add a new image URL
+    const handleAddImage = async (e) => {
+        e.preventDefault();
+
+        if (!imageUrl) {
+            alert('Please enter an image URL');
+            return;
+        }
+
+        try {
+            const response = await axios.post('http://localhost:3001/images', { imageUrl });
+            setImages([...images, response.data]);  // Update state with the new image
+            setImageUrl('');  // Clear the input field
+        } catch (error) {
+            console.error('Error adding image:', error);
+        }
+    };
+
+
     return (
         <div className='IndexPage' style={{ backgroundImage: `url(${backgroundImage})` }}>
 
@@ -454,7 +485,7 @@ export default function IndexPage() {
                 {
                     token ?
                         <span>{userName}</span>
-                        : <span>VIGILANCE/SECR</span>
+                        : <span>VIGILANCE - SECR</span>
                 }
             </div>
             <div className="collapse" id="Navigation-Collapse">
@@ -587,7 +618,10 @@ export default function IndexPage() {
                     {
                         token ?
                             <span>{userName}</span>
-                            : <>Vigilance/SECR</>
+                            : <div className="" style={{ cursor: 'pointer' }}  onClick={() => setPage("home")}>
+                            Vigilance - SECR
+                        </div>
+                        
                     }
                 </logo>
 
@@ -673,6 +707,7 @@ export default function IndexPage() {
                                         <li> <button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#AddCommonSiteModal">Add Site</button></li>
                                         <li> <button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#AddCommonCategoryModal">Add Category</button></li>
                                         <li><button type="button" className="btn dropdown-item" data-bs-toggle="modal" data-bs-target="#changecommonbackgroundModal">Change Background</button></li>
+                                        <li><button type="button" className="btn dropdown-item" data-bs-toggle="modal" data-bs-target="#CarouselImageModal">Add Carousel Image </button></li>
                                     </ul>
                                 </div>
                                 <button type="button" className="btn btn-primary desktop" data-bs-toggle="modal" data-bs-target="#ShowFeedbackModal">Show Feedback</button>
@@ -899,6 +934,34 @@ export default function IndexPage() {
             </div>
 
             {/* MODALS */}
+
+
+            {/* Add Carousel Modal */}
+            <div className="modal fade" id="CarouselImageModal" tabIndex="-1" aria-labelledby="CarouselImageModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="CarouselImageModalLabel">Carousel Image URL</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <form onSubmit={handleAddImage}>
+                                <input
+                                    type="text"
+                                    value={imageUrl}
+                                    onChange={(e) => setImageUrl(e.target.value)}
+                                    placeholder="Enter image URL"
+                                    required
+                                />
+                                <button type="submit" className='btn btn-success mt-3 w-100'>Add Image</button>
+                            </form>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             {/* About Modal */}
             <div className="modal fade" id="aboutModal" tabIndex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">

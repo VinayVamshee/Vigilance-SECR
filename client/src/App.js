@@ -1,9 +1,15 @@
+import { useState } from "react";
+import Home from "./Components/Home";
 import IndexPage from "./Components/IndexPage";
-import './Components/style.css'
+import './Components/style.css';
+
 function App() {
+  const [page, setPage] = useState("home"); // Initially set to "home"
+
   return (
     <div className="App">
-      <IndexPage/>
+      {page === "home" && <Home setPage={setPage} />}
+      {page === "index" && <IndexPage setPage={setPage}/>}
     </div>
   );
 }

@@ -43,18 +43,24 @@
     z-index: 500;
 
     opacity: 0;
-    transform: translateY(-100px); /* Start from above */
+    transform: translateY(-100px);
+    /* Start from above */
     animation: slideDown 1s ease-out forwards;
 }
 
 @keyframes slideDown {
     0% {
-        opacity: 0; /* Start with invisible */
-        transform: translateY(-100px); /* Start from 100px above */
+        opacity: 0;
+        /* Start with invisible */
+        transform: translateY(-100px);
+        /* Start from 100px above */
     }
+
     100% {
-        opacity: 1; /* Fade in */
-        transform: translateY(0); /* Move to original position */
+        opacity: 1;
+        /* Fade in */
+        transform: translateY(0);
+        /* Move to original position */
     }
 }
 
@@ -145,6 +151,7 @@
     gap: 10px;
     padding: 10px;
 }
+
 .Site .Categories .naming-problem {
     width: 32%;
     text-align: center;
@@ -213,7 +220,7 @@
 
 .popAnimation {
     opacity: 0;
-    visibility: hidden; 
+    visibility: hidden;
     animation: popAnimation 0.8s forwards;
 }
 
@@ -223,15 +230,17 @@
         opacity: 0;
         visibility: hidden;
     }
+
     50% {
         transform: scale(1.05);
         opacity: 0.8;
-        visibility: visible; 
+        visibility: visible;
     }
+
     100% {
         transform: scale(1);
         opacity: 1;
-        visibility: visible; 
+        visibility: visible;
     }
 }
 
@@ -365,6 +374,7 @@
     .Categories {
         flex-direction: column;
     }
+
     .Site .Categories .naming-problem {
         width: 100%;
     }
@@ -458,4 +468,54 @@
         background-color: white;
     }
 
+}
+
+
+
+.Home {
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.194);
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.Home ul {
+    display: flex;
+    gap: 10px;
+    list-style-type: none;
+}
+
+.Home ul li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+
+    min-height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.carousel {
+    width: 95%;
+    height: 70vh;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.carousel .carousel-item img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.Home h1 {
+    padding: 10px;
+    text-align: center;
 }

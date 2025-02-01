@@ -9,6 +9,7 @@ const bcrypt = require('bcryptjs');
 const User = require('./Models/User');
 const AdminUser = require('./Models/AdminUser'); 
 const Feedback = require('./Models/Feedback');
+const Image = require('./Models/ImageModel')
 
 const app = express();
 app.use(cors());
@@ -364,6 +365,47 @@ app.get('/getCommonBackground', async (req, res) => {
         res.status(500).send({ msg: "Error fetching common background." });
     }
 });
+
+app.post('/images', async (req, res) => {
+    const { imageUrl } = req.body;
+
+    if (!imageUrl) {
+        return res.status(400).json({ message: 'Image URL is required' });
+    }
+
+    try {
+        const newImage = new Image({ imageUrl });
+        await newImage.save();
+        res.status(201).json(newImage);
+    } catch (error) {
+        res.status(500).json({ message: 'Error saving image', error });
+    }
+});
+
+// GET route to fetch all image links
+app.get('/images', async (req, res) => {
+    try {
+        const images = await Image.find();
+        res.status(200).json(images);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching images', error });
+    }
+});
+
+// DELETE route to remove an image by its ID
+app.delete('/images/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const deletedImage = await Image.findByIdAndDelete(id);
+        if (!deletedImage) {
+            return res.status(404).json({ message: 'Image not found' });
+        }
+        res.status(200).json({ message: 'Image deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting image', error });
+    }
+});
+
 
 const start = async () => {
     try {
