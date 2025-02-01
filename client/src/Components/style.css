@@ -332,10 +332,17 @@
     color: blue;
 }
 
+.privacy strong2 {
+    color: red;
+    font-weight: bold;
+    width: 100%;
+}
+
 .adminDetails a {
     text-decoration: none;
     color: blue;
 }
+
 .adminDetails a:hover {
     color: violet;
 }
@@ -364,10 +371,10 @@
 .AboutWebsite h4 {
     font-weight: bold;
     color: red;
-    padding: 3px;
-    border-radius: 10px;
-    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.211);
-    width: fit-content;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.22);
+    text-align: center;
 }
 
 .AboutWebsite h5 {
@@ -493,7 +500,7 @@
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.194);
-    
+
     min-height: 100vh;
 }
 
@@ -503,8 +510,19 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-
     margin-top: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.Home .content h1 {
+    font-weight: bold;
+    text-align: center;
+}
+
+.Home .content h3 {
+    font-weight: bold;
+    text-align: center;
 }
 
 .Home ul {
@@ -527,9 +545,7 @@
 }
 
 .carousel {
-    background-color: red;
-    width: 95%;
-
+    height: 65vh;
     border-radius: 10px;
     overflow: hidden;
 }
@@ -542,4 +558,12 @@
 .Home h1 {
     padding: 10px;
     text-align: center;
+}
+
+.content p {
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.198);
+    background-color: black;
+    color: white;
 }
