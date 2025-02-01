@@ -493,19 +493,27 @@
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.194);
-    height: 100vh;
+    
+    min-height: 100vh;
+}
 
+.Home .content {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     gap: 10px;
+
+    margin-top: 50px;
 }
 
 .Home ul {
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
     list-style-type: none;
+    flex-wrap: wrap;
 }
 
 .Home ul li {
@@ -514,15 +522,14 @@
     align-items: center;
     justify-content: center;
     gap: 3px;
-
-    min-height: 100vh;
     background-size: cover;
     background-repeat: no-repeat;
 }
 
 .carousel {
+    background-color: red;
     width: 95%;
-    height: 70vh;
+
     border-radius: 10px;
     overflow: hidden;
 }
