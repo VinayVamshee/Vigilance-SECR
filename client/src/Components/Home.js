@@ -129,7 +129,7 @@ export default function Home({ setPage }) {
                     </button>
                 </div>
                 <p>A Window for Indian Railway Information</p>
-                <button className="btn btn-dark shadow-lg" onClick={() => setPage("index")}>
+                <button className="btn btn-dark shadow-lg" style={{ marginTop: '-20px' }} onClick={() => setPage("index")}>
                     Proceed
                 </button>
 
@@ -190,7 +190,7 @@ export default function Home({ setPage }) {
                                     <strong>Srinivas Rao</strong>
                                     <a href="tel:9752375075">9752375075</a>
                                     <a href="mailto:cvipsecr@gmail.com">cvipsecr@gmail.com</a>
-                                    <a className='d-flex g-1' style={{color:'black', fontSize:'medium'}} href='vinayvamsheeresume.vercel.app'> Developer Details - <p style={{color:'red', fontSize:'medium'}}>Vinay Vamshee</p></a>
+                                    <a className='d-flex g-1' style={{ color: 'black', fontSize: 'medium' }} href='vinayvamsheeresume.vercel.app'> Developer Details - <p style={{ color: 'red', fontSize: 'medium' }}>Vinay Vamshee</p></a>
                                 </div>
                             </div>
                         </div>
