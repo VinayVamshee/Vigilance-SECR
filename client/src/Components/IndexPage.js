@@ -485,7 +485,7 @@ export default function IndexPage({ setPage }) {
                 {
                     token ?
                         <span>{userName}</span>
-                        : <span>VIGILANCE - SECR</span>
+                        : <span>Indian Railway</span>
                 }
             </div>
             <div className="collapse" id="Navigation-Collapse">
@@ -619,7 +619,7 @@ export default function IndexPage({ setPage }) {
                         token ?
                             <span>{userName}</span>
                             : <div className="" style={{ cursor: 'pointer' }}  onClick={() => setPage("home")}>
-                            Vigilance - SECR
+                            Indian Railway
                         </div>
                         
                     }
@@ -983,8 +983,8 @@ export default function IndexPage({ setPage }) {
                                 </p>
                                 <br />
                                 <div className='QuickGuide'>
-                                    <h4>Quick Start Guide</h4> 
-                                    <br/><h5>Sign Up:</h5> To create an account, go to the Login page and select "New User? Register" to sign up and set up your account.
+                                    <h4>Quick Start Guide</h4>
+                                    <br /><h5>Sign Up:</h5> To create an account, go to the Login page and select "New User? Register" to sign up and set up your account.
                                     <br /><br />
 
                                     <h5>Log In:</h5> Once your account is created, use your credentials to log in and access your personalized dashboard.
@@ -1001,18 +1001,20 @@ export default function IndexPage({ setPage }) {
                             </div>
                             <div className='AboutAdmin'>
                                 <div className='adminDetails'>
-                                    <strong>SRINIVAS RAO</strong>
-                                    <strong2>Contact Details</strong2> <a href="tel:9752375075">9752375075</a>
+                                    <strong>Srinivas Rao</strong>
+                                    <a href="tel:9752375075">9752375075</a>
                                     <a href="mailto:cvipsecr@gmail.com">cvipsecr@gmail.com</a>
                                 </div>
                             </div>
                         </div>
                         <div className="modal-footer privacy">
+                            <strong2>Disclaimer</strong2>
                             This website is intended solely for educational and informational purposes. All links to government websites and railway websites are provided for easy access and convenience. This website should not be referenced in any official or legal context, and the content provided should not be quoted or used in any legal matters. We do not endorse or promote any misuse of the resources linked on this website. The information provided is for knowledge sharing and public access only.
                         </div>
                     </div>
                 </div>
             </div>
+
 
             {/* Feedback Modal */}
             <div className="modal fade" id="FeedbackModal" tabIndex="-1" aria-labelledby="FeedbackModalLabel" aria-hidden="true">
