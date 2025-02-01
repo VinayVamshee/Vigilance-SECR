@@ -419,6 +419,12 @@
 }
 
 @media (max-width: 560px) {
+    
+    .carousel .carousel-item img {
+        height: 500px;
+        object-fit: cover;
+    }
+
 
     .Navigation {
         display: none;
@@ -502,6 +508,7 @@
     box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.194);
 
     min-height: 100vh;
+    max-height: max-content;
 }
 
 .Home .content {
@@ -545,14 +552,15 @@
 }
 
 .carousel {
-    height: 57vh;
+    max-width: 1200px;
     border-radius: 10px;
-    overflow: hidden;
 }
 
 .carousel .carousel-item img {
     width: 100%;
-    object-fit: cover;
+    height: 470px;
+    object-fit: contain;
+    border-radius: 10px;
 }
 
 .Home h1 {
