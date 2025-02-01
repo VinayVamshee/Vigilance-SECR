@@ -107,43 +107,44 @@ export default function Home({ setPage }) {
                 </div>
             </div>
 
-
-            <h1>VIGILANCE BILASPUR SOUTH EAST CENTRAL RAILWAY</h1>
-            <div id="carouselExampleAutoplaying" className="carousel custom-carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
-                <div className="carousel-inner">
-                    {images.map((image, index) => (
-                        <div className={`carousel-item ${index === 0 ? 'active' : ''}`} key={image._id}>
-                            <img src={image.imageUrl} className="d-block" alt="..." />
-                        </div>
-                    ))}
-                </div>
-                <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span className="visually-hidden">Previous</span>
-                </button>
-                <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span className="visually-hidden">Next</span>
-                </button>
-            </div>
-
-            <button className="btn btn-dark" onClick={() => setPage("index")}>
-                Go to Websites
-            </button>
-
-            {
-                AdminToken ?
-                    <ul>
-                        {images.map((image) => (
-                            <li key={image._id}>
-                                <img src={image.imageUrl} alt="..." style={{ width: '200px' }} />
-                                <button className='btn btn-outline-danger' onClick={() => handleDeleteImage(image._id)}>Delete</button>
-                            </li>
+            <div className='content'>
+                <h1>VIGILANCE BILASPUR SOUTH EAST CENTRAL RAILWAY</h1>
+                <div id="carouselExampleAutoplaying" className="carousel custom-carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+                    <div className="carousel-inner">
+                        {images.map((image, index) => (
+                            <div className={`carousel-item ${index === 0 ? 'active' : ''}`} key={image._id}>
+                                <img src={image.imageUrl} className="d-block" alt="..." />
+                            </div>
                         ))}
-                    </ul>
-                    :
-                    null
-            }
+                    </div>
+                    <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span className="visually-hidden">Previous</span>
+                    </button>
+                    <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span className="visually-hidden">Next</span>
+                    </button>
+                </div>
+
+                <button className="btn btn-dark " onClick={() => setPage("index")}>
+                    Go to Websites
+                </button>
+
+                {
+                    AdminToken ?
+                        <ul>
+                            {images.map((image) => (
+                                <li key={image._id}>
+                                    <img src={image.imageUrl} alt="..." style={{ width: '200px' }} />
+                                    <button className='btn btn-outline-danger' onClick={() => handleDeleteImage(image._id)}>Delete</button>
+                                </li>
+                            ))}
+                        </ul>
+                        :
+                        null
+                }
+            </div>
 
             {/* Modals */}
             {/* About Modal */}
@@ -166,8 +167,8 @@ export default function Home({ setPage }) {
                                 </p>
                                 <br />
                                 <div className='QuickGuide'>
-                                    <h4>Quick Start Guide</h4> 
-                                    <br/><h5>Sign Up:</h5> To create an account, go to the Login page and select "New User? Register" to sign up and set up your account.
+                                    <h4>Quick Start Guide</h4>
+                                    <br /><h5>Sign Up:</h5> To create an account, go to the Login page and select "New User? Register" to sign up and set up your account.
                                     <br /><br />
 
                                     <h5>Log In:</h5> Once your account is created, use your credentials to log in and access your personalized dashboard.
