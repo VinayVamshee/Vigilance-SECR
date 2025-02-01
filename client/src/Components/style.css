@@ -564,6 +564,5 @@
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.198);
-    background-color: black;
-    color: white;
+    background-color: rgba(255, 255, 255, 0.503);
 }
