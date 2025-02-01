@@ -127,7 +127,7 @@ export default function Home({ setPage }) {
                 </button>
             </div>
 
-            <button className="btn btn-primary" onClick={() => setPage("index")}>
+            <button className="btn btn-dark" onClick={() => setPage("index")}>
                 Go to Websites
             </button>
 
@@ -148,7 +148,7 @@ export default function Home({ setPage }) {
             {/* Modals */}
             {/* About Modal */}
             <div className="modal fade" id="aboutModal" tabIndex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
-                <div className="modal-dialog modal-lg">
+                <div className="modal-dialog modal-xl">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h1 className="modal-title fs-5" id="aboutModalLabel">About</h1>
@@ -157,37 +157,41 @@ export default function Home({ setPage }) {
                         <div className="modal-body">
                             <div className='AboutWebsite'>
                                 <p>
-                                    <strong>W</strong>elcome to our website, designed to enhance your browsing experience and save you time.
-                                    With our platform, you can easily search for and save your favorite websites without the hassle of searching each time.
-                                    Our user-friendly interface allows you to categorize your saved sites, add unique logos, and customize your experience to suit your needs.
-                                    Plus, you can edit all details to keep your information up to date and even change the wallpaper to personalize your space.
-                                    This website can be accessed anywhere, on any device—whether it's a mobile phone, tablet, or laptop.
-                                    Simplify your online navigation and make the most of your web experience with us!
+                                    <strong>W</strong>elcome to our website, created to simplify your browsing experience and save you time. Our platform allows you to easily search for, save, and categorize your favorite websites, all without the hassle of repeated searches. You can personalize your space by adding unique logos, editing details to keep your information up to date, and even changing the wallpaper to suit your style. Accessible from any device—whether mobile, tablet, or laptop—our website enhances your online navigation.
+
                                 </p>
 
-                                <p>If you don't have an account or prefer not to create one, you can still enjoy quick access to our pre-saved websites directly from the home screen. Simply browse through the curated categories and popular sites we've saved to make it easy for you to find essential websites, no sign-up needed!</p>
+                                <p>Even if you don't have an account or prefer not to create one, you can still access a range of pre-saved websites directly from the home screen. Browse through our curated categories and popular sites, and enjoy quick access to essential websites without any sign-up required.
+
+                                </p>
                                 <br />
-                                <h4>Quick Start Guide</h4>
-                                <h5>Sign Up:</h5>
-                                Go to Login, select New User? Register, and create your account.<br /><br />
-                                <h5>Log In:</h5>
-                                Use your new credentials to log in.<br /><br />
-                                <h5>Add Websites:</h5>
-                                On your dashboard, start adding websites to your personal collection.<br /><br />
-                                <h5>Organize & Customize:</h5>
-                                Add categories, logos, and set a background for easy access.<br />
-                                Now, all your favorite sites are saved and easy to find!
+                                <div className='QuickGuide'>
+                                    <h4>Quick Start Guide</h4> 
+                                    <br/><h5>Sign Up:</h5> To create an account, go to the Login page and select "New User? Register" to sign up and set up your account.
+                                    <br /><br />
+
+                                    <h5>Log In:</h5> Once your account is created, use your credentials to log in and access your personalized dashboard.
+                                    <br /><br />
+
+                                    <h5>Add Websites:</h5> Start adding websites to your personal collection directly from your dashboard for easy access later.
+                                    <br /><br />
+
+                                    <h5>Organize & Customize:</h5> You can organize your saved sites into categories, add logos for quick identification, and even set a custom background to personalize your space.
+                                    <br /><br />
+
+                                    Now, all your favorite websites are saved, organized, and ready to be easily accessed whenever you need them!
+                                </div>
                             </div>
                             <div className='AboutAdmin'>
                                 <div className='adminDetails'>
-                                    <strong>Srinivas Rao</strong>
+                                    <strong>SRINIVAS RAO</strong>
                                     <strong2>Contact Details</strong2> <a href="tel:9752375075">9752375075</a>
                                     <a href="mailto:cvipsecr@gmail.com">cvipsecr@gmail.com</a>
                                 </div>
                             </div>
                         </div>
                         <div className="modal-footer privacy">
-                            Your privacy is our top priority. All personal information and account details provided on this website are securely stored and protected against unauthorized access. We adhere to strict privacy standards, ensuring that your data remains safe and is never shared with third parties. Enjoy a secure experience every time you visit.
+                            This website is intended solely for educational and informational purposes. All links to government websites and railway websites are provided for easy access and convenience. This website should not be referenced in any official or legal context, and the content provided should not be quoted or used in any legal matters. We do not endorse or promote any misuse of the resources linked on this website. The information provided is for knowledge sharing and public access only.
                         </div>
                     </div>
                 </div>
