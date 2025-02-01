@@ -77,7 +77,7 @@ export default function Home({ setPage }) {
                 <form className='Search' onSubmit={googleSearch}>
                     <input id='search' type='text' placeholder='Google Search...' />
                 </form>
-                <span>Indian Railway</span>
+                <span onClick={() => setPage("index")}>Indian Railway</span>
 
             </div>
 
@@ -91,7 +91,7 @@ export default function Home({ setPage }) {
             </div>
 
             <div className='Navigation'>
-                <logo>
+                <logo onClick={() => setPage("index")}>
                     <img src='https://cdn-icons-png.flaticon.com/512/5988/5988117.png' alt='...' />Indian Railway
                 </logo>
 
@@ -190,6 +190,7 @@ export default function Home({ setPage }) {
                                     <strong>Srinivas Rao</strong>
                                     <a href="tel:9752375075">9752375075</a>
                                     <a href="mailto:cvipsecr@gmail.com">cvipsecr@gmail.com</a>
+                                    <a className='d-flex g-1' style={{color:'black', fontSize:'medium'}} href='vinayvamsheeresume.vercel.app'> Developer Details - <p style={{color:'red', fontSize:'medium'}}>Vinay Vamshee</p></a>
                                 </div>
                             </div>
                         </div>
