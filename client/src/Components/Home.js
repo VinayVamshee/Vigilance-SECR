@@ -111,7 +111,7 @@ export default function Home({ setPage }) {
                 <h1>VIGILANCE BRANCH
                     <h3>South East Central Railway <br />Bilaspur</h3>
                 </h1>
-                <div id="carouselExampleAutoplaying" className="carousel custom-carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+                <div id="carouselExampleAutoplaying" className="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
                     <div className="carousel-inner">
                         {images.map((image, index) => (
                             <div className={`carousel-item ${index === 0 ? 'active' : ''}`} key={image._id}>
@@ -129,7 +129,7 @@ export default function Home({ setPage }) {
                     </button>
                 </div>
                 <p>A Window for Indian Railway Information</p>
-                <button className="btn btn-dark shadow-lg" style={{ marginTop: '-20px' }} onClick={() => setPage("index")}>
+                <button className="btn btn-dark shadow-lg" style={{ marginTop: '-10px' }} onClick={() => setPage("index")}>
                     Proceed
                 </button>
 
