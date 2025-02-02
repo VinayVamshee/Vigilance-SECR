@@ -77,7 +77,7 @@ export default function Home({ setPage }) {
                 <form className='Search' onSubmit={googleSearch}>
                     <input id='search' type='text' placeholder='Google Search...' />
                 </form>
-                <span onClick={() => setPage("index")}>Indian Railway</span>
+                <span onClick={() => { localStorage.setItem("selectedPage", "index"); setPage("index"); }}>Indian Railway</span>
 
             </div>
 
@@ -91,7 +91,7 @@ export default function Home({ setPage }) {
             </div>
 
             <div className='Navigation'>
-                <logo onClick={() => setPage("index")}>
+                <logo onClick={() => { localStorage.setItem("selectedPage", "index"); setPage("index"); }}>
                     <img src='https://cdn-icons-png.flaticon.com/512/5988/5988117.png' alt='...' />Indian Railway
                 </logo>
 
@@ -129,7 +129,7 @@ export default function Home({ setPage }) {
                     </button>
                 </div>
                 <p>A Window for Indian Railway Information</p>
-                <button className="btn btn-dark shadow-lg" style={{ marginTop: '-10px' }} onClick={() => setPage("index")}>
+                <button className="btn btn-dark shadow-lg" style={{ marginTop: '-10px' }} onClick={() => { localStorage.setItem("selectedPage", "index"); setPage("index"); }}>
                     Proceed
                 </button>
 
@@ -190,8 +190,7 @@ export default function Home({ setPage }) {
                                     <strong>Srinivas Rao</strong>
                                     <a href="tel:9752375075">9752375075</a>
                                     <a href="mailto:cvipsecr@gmail.com">cvipsecr@gmail.com</a>
-                                    <a className='d-flex g-1'  style={{ color: 'black', fontSize: 'medium' }} href='https://vinayvamsheeresume.vercel.app' target="_blank"  rel="noopener noreferrer" > Developer Details -  <span style={{ color: 'red', fontSize: 'medium' }}>Vinay Vamshee</span> </a>
-
+                                    <a className='d-flex g-1' style={{ color: 'black', fontSize: 'medium' }} href='vinayvamsheeresume.vercel.app'> Developer Details - <p style={{ color: 'red', fontSize: 'medium' }}>Vinay Vamshee</p></a>
                                 </div>
                             </div>
                         </div>
