@@ -137,14 +137,6 @@ export default function IndexPage({ setPage }) {
         fetchCategories();
     }, [token]);
 
-    const googleSearch = (event) => {
-        event.preventDefault();
-        var text = document.getElementById("search").value;
-        var cleanQuery = text.replace(" ", "+", text);
-        var url = "http://www.google.com/search?q=" + cleanQuery;
-        window.open(url, '_blank');
-    };
-
     const handleLogout = () => {
         localStorage.removeItem('token');
         window.location.reload();
@@ -506,16 +498,44 @@ export default function IndexPage({ setPage }) {
         fetchLockedUsers();
     }, []);
 
+    const [searchText, setSearchText] = useState(""); // Track search input
+    const [filteredSites, setFilteredSites] = useState([]);
+
+    useEffect(() => {
+        if (!searchText) {
+            setFilteredSites([]);
+            return;
+        }
+
+        const matchedSites = [...allSites, ...AllSite].filter((site) =>
+            site.Name?.toLowerCase().includes(searchText.toLowerCase())
+        );
+
+        setFilteredSites(matchedSites);
+    }, [searchText]);  // This effect will run when searchText changes
+
+    // Google Search on Enter key press
+    const googleSearch = (event) => {
+        event.preventDefault(); // Prevent default form submission behavior
+        const text = searchText.trim();
+        if (!text) return;
+
+        // Google Search
+        const cleanQuery = text.replace(/\s+/g, "+");
+        const url = `http://www.google.com/search?q=${cleanQuery}`;
+        window.open(url, "_blank");
+    };
+
 
     return (
         <div className='IndexPage' style={{ backgroundImage: `url(${backgroundImage})` }}>
 
             <div className='mobile-Navigation'>
                 <button className="btn" type="button" data-bs-toggle="collapse" data-bs-target="#Navigation-Collapse" aria-expanded="false" aria-controls="Navigation-Collapse">
-                    <img src='https://www.freeiconspng.com/thumbs/menu-icon/menu-icon-24.png' alt='...' />
+                    <img src='https://i.ibb.co/G3FGV4WJ/Whats-App-Image-2025-02-01-at-17-51-50.jpg' alt='...' />
                 </button>
                 <form className='Search' onSubmit={googleSearch}>
-                    <input id='search' type='text' placeholder='Google Search...' />
+                    <input type="text" id=" search" placeholder='Search Website or Google...' value={searchText} onChange={(e) => setSearchText(e.target.value)} />
                 </form>
                 {
                     token ?
@@ -668,7 +688,7 @@ export default function IndexPage({ setPage }) {
                 </logo>
 
                 <form className='Search' onSubmit={googleSearch}>
-                    <input id='search' type='text' placeholder='Google Search...' />
+                    <input type="text" id=" search" placeholder='Search Website or Google...' value={searchText} onChange={(e) => setSearchText(e.target.value)} />
                 </form>
 
                 <div className='options'>
@@ -801,6 +821,26 @@ export default function IndexPage({ setPage }) {
             </div>
 
             <div className='Site'>
+
+                {/* Search Results */}
+                {
+                    searchText ?
+                        <div className="AllSites row DropDown-Animation" style={{ backgroundColor: 'rgba(255, 255, 255, 0.87)' }}>
+                            {
+                                filteredSites.length > 0 ? (
+                                    filteredSites.map((site, idx) => (
+                                        <div key={idx} className="WebSite slideRightAnimation" style={{ animationDelay: `${0.5 + idx * 0.1}s` }}>
+                                            <a href={site.Url} target='_blank' rel="noreferrer"><img src={site.Logo} alt='Site Logo' />{site.Name}</a>
+                                        </div>
+                                    ))
+                                ) :
+                                    <p>No Websites Found...</p>
+                            }
+                        </div>
+                        :
+                        null
+                }
+
                 {/* Users Sites */}
                 {
                     token ?
