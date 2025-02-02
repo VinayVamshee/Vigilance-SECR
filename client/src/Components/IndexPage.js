@@ -512,7 +512,7 @@ export default function IndexPage({ setPage }) {
 
             <div className='mobile-Navigation'>
                 <button className="btn" type="button" data-bs-toggle="collapse" data-bs-target="#Navigation-Collapse" aria-expanded="false" aria-controls="Navigation-Collapse">
-                    <img src='https://www.freeiconspng.com/thumbs/menu-icon/menu-icon-24.png' alt='...' />
+                    <img src='https://i.ibb.co/G3FGV4WJ/Whats-App-Image-2025-02-01-at-17-51-50.jpg' alt='...' />
                 </button>
                 <form className='Search' onSubmit={googleSearch}>
                     <input id='search' type='text' placeholder='Google Search...' />
@@ -656,7 +656,7 @@ export default function IndexPage({ setPage }) {
 
             <div className='Navigation'>
                 <logo>
-                    <img src='https://cdn-icons-png.flaticon.com/512/5988/5988117.png' alt='...' />
+                    <img src='https://i.ibb.co/G3FGV4WJ/Whats-App-Image-2025-02-01-at-17-51-50.jpg' alt='...' />
                     {
                         token ?
                             <span>{userName}</span>
