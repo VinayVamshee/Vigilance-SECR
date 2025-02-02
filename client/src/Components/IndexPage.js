@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './style.css'
+// eslint-disable-next-line
 import srinivas from './SrinivasRao.png'
 
 export default function IndexPage({ setPage }) {
@@ -471,6 +472,40 @@ export default function IndexPage({ setPage }) {
         }
     };
 
+    const [selectedUsers, setSelectedUsers] = useState([]);
+
+    const handleCheckboxChange = (username) => {
+        setSelectedUsers((prevSelected) =>
+            prevSelected.includes(username)
+                ? prevSelected.filter((name) => name !== username)
+                : [...prevSelected, username]
+        );
+    };
+
+    const handleSave = async () => {
+        try {
+            await axios.post("https://vigilance-secr-server.vercel.app/AddNewLockedUser", { names: selectedUsers });
+            alert("Locked users updated successfully");
+        } catch (error) {
+            console.error("Error updating locked users:", error);
+            alert("Failed to update locked users");
+        }
+    };
+
+    useEffect(() => {
+        const fetchLockedUsers = async () => {
+            try {
+                const response = await axios.get("https://vigilance-secr-server.vercel.app/GetLockedUsers");
+                const lockedUsernames = response.data.map(user => user.name);
+                setSelectedUsers(lockedUsernames);
+            } catch (error) {
+                console.error("Error fetching locked users:", error);
+            }
+        };
+
+        fetchLockedUsers();
+    }, []);
+
 
     return (
         <div className='IndexPage' style={{ backgroundImage: `url(${backgroundImage})` }}>
@@ -485,7 +520,7 @@ export default function IndexPage({ setPage }) {
                 {
                     token ?
                         <span>{userName}</span>
-                        : <span onClick={() => setPage("home")}>Indian Railway</span>
+                        : <span onClick={() => { localStorage.setItem("selectedPage", "home"); setPage("home"); }}>Indian Railway</span>
                 }
             </div>
             <div className="collapse" id="Navigation-Collapse">
@@ -493,18 +528,25 @@ export default function IndexPage({ setPage }) {
                     {
                         token ?
                             <>
-                                {/* Users Modify */}
-                                <div className="dropend">
-                                    <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Modify
-                                    </button>
-                                    <ul className="dropdown-menu">
-                                        <li><div className='Checkbox dropdown-item'><input type='checkbox' checked={editMode} onChange={(e) => setEditMode(e.target.checked)} />Edit Site</div></li>
-                                        <li><button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#AddNewSiteModal">Add Website</button></li>
-                                        <li><button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#AddNewCategoryModal">Add Category</button></li>
-                                        <li><button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#ChangeBackgroundModal">Change Background</button></li>
-                                    </ul>
-                                </div>
+                                {
+                                    !selectedUsers.includes(userName) || AdminToken ?
+                                        <>
+                                            {/* Users Modify */}
+                                            <div className="dropend">
+                                                <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Modify
+                                                </button>
+                                                <ul className="dropdown-menu">
+                                                    <li><div className='Checkbox dropdown-item'><input type='checkbox' checked={editMode} onChange={(e) => setEditMode(e.target.checked)} />Edit Site</div></li>
+                                                    <li><button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#AddNewSiteModal">Add Website</button></li>
+                                                    <li><button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#AddNewCategoryModal">Add Category</button></li>
+                                                    <li><button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#ChangeBackgroundModal">Change Background</button></li>
+                                                </ul>
+                                            </div>
+                                        </>
+                                        :
+                                        null
+                                }
 
                                 {/* View Home */}
                                 <div className="dropend">
@@ -618,10 +660,10 @@ export default function IndexPage({ setPage }) {
                     {
                         token ?
                             <span>{userName}</span>
-                            : <div className="" style={{ cursor: 'pointer' }}  onClick={() => setPage("home")}>
-                            Indian Railway
-                        </div>
-                        
+                            : <div className="" style={{ cursor: 'pointer' }} onClick={() => { localStorage.setItem("selectedPage", "home"); setPage("home"); }}>
+                                Indian Railway
+                            </div>
+
                     }
                 </logo>
 
@@ -634,17 +676,22 @@ export default function IndexPage({ setPage }) {
                         token ?
                             <>
                                 {/* Users Modify */}
-                                <div className="dropdown">
-                                    <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Modify
-                                    </button>
-                                    <ul className="dropdown-menu">
-                                        <li><div className='Checkbox dropdown-item'><input type='checkbox' checked={editMode} onChange={(e) => setEditMode(e.target.checked)} />Edit Site</div></li>
-                                        <li><button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#AddNewSiteModal">Add Website</button></li>
-                                        <li><button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#AddNewCategoryModal">Add Category</button></li>
-                                        <li><button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#ChangeBackgroundModal">Change Background</button></li>
-                                    </ul>
-                                </div>
+                                {
+                                    !selectedUsers.includes(userName) || AdminToken ?
+                                        <div className="dropdown">
+                                            <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Modify
+                                            </button>
+                                            <ul className="dropdown-menu">
+                                                <li><div className='Checkbox dropdown-item'><input type='checkbox' checked={editMode} onChange={(e) => setEditMode(e.target.checked)} />Edit Site</div></li>
+                                                <li><button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#AddNewSiteModal">Add Website</button></li>
+                                                <li><button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#AddNewCategoryModal">Add Category</button></li>
+                                                <li><button className='btn dropdown-item' data-bs-toggle="modal" data-bs-target="#ChangeBackgroundModal">Change Background</button></li>
+                                            </ul>
+                                        </div>
+                                        :
+                                        null
+                                }
 
                                 {/* View Home */}
                                 <div className="dropdown">
@@ -850,7 +897,7 @@ export default function IndexPage({ setPage }) {
                                                 ))
                                             }
                                             {
-                                                AdmineditMode &&  (
+                                                AdmineditMode && (
                                                     <button className='btn btn-outline-danger m-2' onClick={() => deleteCommonCategory(category._id)}> Delete Category:  {category.Name}</button>
                                                 )
                                             }
@@ -1004,7 +1051,7 @@ export default function IndexPage({ setPage }) {
                                     <strong>Srinivas Rao</strong>
                                     <a href="tel:9752375075">9752375075</a>
                                     <a href="mailto:cvipsecr@gmail.com">cvipsecr@gmail.com</a>
-                                    <a className='d-flex g-1'  style={{ color: 'black', fontSize: 'medium' }} href='https://vinayvamsheeresume.vercel.app' target="_blank"  rel="noopener noreferrer" > Developer Details -  <span style={{ color: 'red', fontSize: 'medium' }}>Vinay Vamshee</span> </a>
+                                    <a className='d-flex g-1' style={{ color: 'black', fontSize: 'medium' }} href='vinayvamsheeresume.vercel.app'> Developer Details - <p style={{ color: 'red', fontSize: 'medium' }}>Vinay Vamshee</p></a>
                                 </div>
                             </div>
                         </div>
@@ -1280,6 +1327,7 @@ export default function IndexPage({ setPage }) {
                                                 <th>Username</th>
                                                 <th>Password</th>
                                                 <th>PhoneNo</th>
+                                                <th>Lock Modify</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -1288,10 +1336,12 @@ export default function IndexPage({ setPage }) {
                                                     <td>{user.username}</td>
                                                     <td>{user.password}</td>
                                                     <td>{user.phoneno}</td>
+                                                    <th><input type="checkbox" checked={selectedUsers.includes(user.username)} onChange={() => handleCheckboxChange(user.username)} /></th>
                                                 </tr>
                                             ))}
                                         </tbody>
                                     </table>
+                                    <button className='btn btn-success' onClick={handleSave}>Save</button>
                                 </div>
                             )}
                         </div>
