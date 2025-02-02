@@ -4,8 +4,7 @@ import IndexPage from "./Components/IndexPage";
 import './Components/style.css';
 
 function App() {
-  const [page, setPage] = useState("home"); // Initially set to "home"
-
+  const [page, setPage] = useState(localStorage.getItem("selectedPage") || "home");
   return (
     <div className="App">
       {page === "home" && <Home setPage={setPage} />}
