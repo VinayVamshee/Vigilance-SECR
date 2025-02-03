@@ -422,6 +422,7 @@
     
     .carousel .carousel-item img {
         height: 500px;
+        border-radius:45px;
         object-fit: cover;
     }
 
@@ -553,7 +554,7 @@
 
 .carousel {
     max-width: 1200px;
-    border-radius: 10px;
+    border-radius: 45px;
 }
 
 .carousel .carousel-item img {
