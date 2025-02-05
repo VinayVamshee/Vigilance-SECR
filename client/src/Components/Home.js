@@ -190,7 +190,7 @@ export default function Home({ setPage }) {
                                     <strong>Srinivas Rao</strong>
                                     <a href="tel:9752375075">9752375075</a>
                                     <a href="mailto:cvipsecr@gmail.com">cvipsecr@gmail.com</a>
-                                    <a className='d-flex g-1' style={{ color: 'black', fontSize: 'medium' }} href='vinayvamsheeresume.vercel.app'> Developer Details - <p style={{ color: 'red', fontSize: 'medium' }}>Vinay Vamshee</p></a>
+                                    <a className='vinayvamshee' href='https://vinayvamsheeresume.vercel.app/' target="_blank" rel="noopener noreferrer"> Developer Details - Vinay Vamshee</a>
                                 </div>
                             </div>
                         </div>
