@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
-export default function Home({ setPage }) {
+export default function Home() {
 
     const [images, setImages] = useState([]);
     useEffect(() => {
@@ -72,12 +73,12 @@ export default function Home({ setPage }) {
 
             <div className='mobile-Navigation'>
                 <button className="btn" type="button" data-bs-toggle="collapse" data-bs-target="#Navigation-Collapse" aria-expanded="false" aria-controls="Navigation-Collapse">
-                    <img src='https://www.freeiconspng.com/thumbs/menu-icon/menu-icon-24.png' alt='...' />
+                    <img src='https://i.ibb.co/G3FGV4WJ/Whats-App-Image-2025-02-01-at-17-51-50.jpg' alt='...' />
                 </button>
                 <form className='Search' onSubmit={googleSearch}>
                     <input id='search' type='text' placeholder='Google Search...' />
                 </form>
-                <span onClick={() => { localStorage.setItem("selectedPage", "index"); setPage("index"); }}>Indian Railway</span>
+                <Link to='/index'>Indian Railway</Link>
 
             </div>
 
@@ -91,7 +92,7 @@ export default function Home({ setPage }) {
             </div>
 
             <div className='Navigation'>
-                <logo onClick={() => { localStorage.setItem("selectedPage", "index"); setPage("index"); }}>
+                <logo>
                     <img src='https://i.ibb.co/G3FGV4WJ/Whats-App-Image-2025-02-01-at-17-51-50.jpg' alt='...' />Indian Railway
                 </logo>
 
@@ -129,9 +130,9 @@ export default function Home({ setPage }) {
                     </button>
                 </div>
                 <p>A Window for Indian Railway Information</p>
-                <button className="btn btn-dark shadow-lg" style={{ marginTop: '-10px' }} onClick={() => { localStorage.setItem("selectedPage", "index"); setPage("index"); }}>
+                <Link to='/index' className="btn btn-dark shadow-lg" style={{ marginTop: '-10px' }}>
                     Proceed
-                </button>
+                </Link>
 
                 {
                     AdminToken ?
