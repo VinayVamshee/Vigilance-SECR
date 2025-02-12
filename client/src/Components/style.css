@@ -591,3 +591,121 @@
     }
   }
   
+
+
+
+
+.flipbook-container {
+    padding: 50px;
+    min-height: 90vh;
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+  }
+
+  .flipbook-container .backbutton {
+    position: fixed;
+    top: 5%;
+    left: 5%;
+    color: white;
+    background-color: black;
+    text-decoration: none;
+    border: black 1px solid;
+    padding: 4px;
+    border-radius: 10px;
+    transition: 0.2s ease-in-out;
+  }
+
+  .flipbook-container .backbutton:hover {
+    background-color: #494949;
+    cursor: pointer;
+    box-shadow: 0px 5px 10px #00000060;
+  }
+
+  .flipbook-container .color-picker {
+    position: fixed;
+    top: 5%;
+    right: 5%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    
+    background-color: black;
+    color: white;
+    border: black 1px solid;
+    padding: 4px;
+    border-radius: 10px;
+  }
+
+  .flipbook-container .color-picker input {
+    width: 25px;
+    object-fit: cover;
+  }
+
+  .flipbook-container .color-picker input:hover {
+    cursor: pointer;
+  }
+
+
+  
+  .flipbook {
+    background-color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .view-download {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .view-download .btn {
+    background-color: black;
+    color: white;
+    transition: 0.2s ease;
+  }
+  
+  .view-download .btn:hover {
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    transform: scale(1.1);
+  }
+  
+  
+  /* Flipbook pages */
+  .flipbook-page {
+    background-color: #fff;
+    padding: 10px;
+  }
+  
+  /* Individual PDF Page */
+  .pdf-page {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  /* Page number indicator */
+  .page-indicator {
+    margin-top: 10px;
+    text-align: right;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .page-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
