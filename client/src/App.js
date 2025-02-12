@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Components/Home";
 import IndexPage from "./Components/IndexPage";
+import Documentation from "./Components/Documentation"; // Import Documentation component
 import './Components/style.css';
 
 function App() {
-  const [page, setPage] = useState(localStorage.getItem("selectedPage") || "home");
   return (
-    <div className="App">
-      {page === "home" && <Home setPage={setPage} />}
-      {page === "index" && <IndexPage setPage={setPage}/>}
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/index" element={<IndexPage />} />
+          <Route path="/documentation" element={<Documentation />} /> 
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
