@@ -3,13 +3,15 @@ import axios from 'axios';
 import './style.css'
 // eslint-disable-next-line
 import srinivas from './SrinivasRao.png'
+import { Link } from 'react-router-dom';
 
-export default function IndexPage({ setPage }) {
+export default function IndexPage() {
     const [Site, setSite] = useState({
         Name: ' ',
         Url: ' ',
         Logo: ' ',
-        Category: ' '
+        Category: ' ',
+        pdf: false
     });
 
     const [Category, setCategory] = useState({
@@ -152,7 +154,8 @@ export default function IndexPage({ setPage }) {
         Name: '',
         Url: '',
         Logo: '',
-        Category: ''
+        Category: '',
+        pdf: false
     });
 
     const handleUpdate = async () => {
@@ -162,7 +165,8 @@ export default function IndexPage({ setPage }) {
                 Name: EditSite.Name,
                 Url: EditSite.Url,
                 Logo: EditSite.Logo,
-                Category: EditSite.Category
+                Category: EditSite.Category,
+                pdf: EditSite.pdf
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -170,7 +174,7 @@ export default function IndexPage({ setPage }) {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setAllSite(response.data);
-            setEditSite({ Name: '', Url: '', Logo: '', Category: '' });
+            setEditSite({ Name: '', Url: '', Logo: '', Category: '', pdf: false });
         } catch (error) {
             console.error("Error updating site:", error);
         }
@@ -236,7 +240,8 @@ export default function IndexPage({ setPage }) {
         Name: '',
         Url: '',
         Logo: '',
-        Category: ''
+        Category: '',
+        pdf: false
     });
 
     const [sites, setSites] = useState([]);
@@ -246,7 +251,7 @@ export default function IndexPage({ setPage }) {
         try {
             const response = await axios.post('https://vigilance-secr-server.vercel.app/addSite', commonSite);
             setSites([...sites, response.data]);
-            setCommonSite({ Name: '', Url: '', Logo: '', Category: '' });
+            setCommonSite({ Name: '', Url: '', Logo: '', Category: '', pdf: false });
         } catch (error) {
             console.error('Error adding site:', error);
         }
@@ -512,6 +517,7 @@ export default function IndexPage({ setPage }) {
         );
 
         setFilteredSites(matchedSites);
+        // eslint-disable-next-line
     }, [searchText]);  // This effect will run when searchText changes
 
     // Google Search on Enter key press
@@ -540,7 +546,7 @@ export default function IndexPage({ setPage }) {
                 {
                     token ?
                         <span>{userName}</span>
-                        : <span onClick={() => { localStorage.setItem("selectedPage", "home"); setPage("home"); }}>Indian Railway</span>
+                        : <Link to='/' className='text-dark'>Indian Railway</Link>
                 }
             </div>
             <div className="collapse" id="Navigation-Collapse">
@@ -680,10 +686,9 @@ export default function IndexPage({ setPage }) {
                     {
                         token ?
                             <span>{userName}</span>
-                            : <div className="" style={{ cursor: 'pointer' }} onClick={() => { localStorage.setItem("selectedPage", "home"); setPage("home"); }}>
+                            : <Link to='/' style={{ cursor: 'pointer', textDecoration: 'none' }} className='text-dark'>
                                 Indian Railway
-                            </div>
-
+                            </Link>
                     }
                 </logo>
 
@@ -853,7 +858,15 @@ export default function IndexPage({ setPage }) {
                                             {AllSite.filter(site => site.Category.trim().toLowerCase() === category.Category.trim().toLowerCase())
                                                 .map((site, index) => (
                                                     <div key={index} className='WebSite slideRightAnimation' style={{ animationDelay: `${1 + index * 0.2}s` }}>
-                                                        <a href={site.Url} target='_blank' rel="noreferrer"> <img src={site.Logo} alt='...' />{site.Name}</a>
+                                                        {site.pdf ? (
+                                                            <Link to={`/documentation?file=${encodeURIComponent(site.Url)}`}>
+                                                                <img src={site.Logo} alt="..." />{site.Name}
+                                                            </Link>
+                                                        ) : (
+                                                            <a href={site.Url} target="_blank" rel="noreferrer">
+                                                                <img src={site.Logo} alt="..." />{site.Name}
+                                                            </a>
+                                                        )}
                                                     </div>
                                                 ))
                                             }
@@ -871,7 +884,15 @@ export default function IndexPage({ setPage }) {
                             <div className='AllSites row'>
                                 {AllSite.map((Element, idx) => (
                                     <div key={idx} className='WebSite'>
-                                        <a href={Element.Url} target='_blank' rel="noreferrer"><img src={Element.Logo} alt='...' />{Element.Name}</a>
+                                        {Element.pdf ? (
+                                            <Link to={`/documentation?file=${encodeURIComponent(Element.Url)}`}>
+                                                <img src={Element.Logo} alt="..." />{Element.Name}
+                                            </Link>
+                                        ) : (
+                                            <a href={Element.Url} target="_blank" rel="noreferrer">
+                                                <img src={Element.Logo} alt="..." />{Element.Name}
+                                            </a>
+                                        )}
                                         {
                                             editMode && (
                                                 <>
@@ -904,6 +925,9 @@ export default function IndexPage({ setPage }) {
                                                                     <option key={idx} value={category.Category}>{category.Category}</option>
                                                                 ))}
                                                             </select>
+                                                            <label className='d-flex'>
+                                                                Enable PDF <input type="checkbox" checked={EditSite.pdf} onChange={(e) => setEditSite({ ...EditSite, pdf: e.target.checked })} />
+                                                            </label>
                                                         </div>
                                                         <div className="modal-footer">
                                                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -932,7 +956,15 @@ export default function IndexPage({ setPage }) {
                                             {allSites.filter(site => site.Category.trim().toLowerCase() === category.Name.trim().toLowerCase())
                                                 .map((site, index) => (
                                                     <div key={index} className='WebSite slideRightAnimation' style={{ animationDelay: `${1 + index * 0.2}s` }}>
-                                                        <a href={site.Url} target='_blank' rel="noreferrer"> <img src={site.Logo} alt='...' />{site.Name}</a>
+                                                        {site.pdf ? (
+                                                            <Link to={`/documentation?file=${encodeURIComponent(site.Url)}`}>
+                                                                <img src={site.Logo} alt="..." />{site.Name}
+                                                            </Link>
+                                                        ) : (
+                                                            <a href={site.Url} target="_blank" rel="noreferrer">
+                                                                <img src={site.Logo} alt="..." />{site.Name}
+                                                            </a>
+                                                        )}
                                                     </div>
                                                 ))
                                             }
@@ -950,7 +982,15 @@ export default function IndexPage({ setPage }) {
                             <div className='AllSites row'>
                                 {allSites.map((site, idx) => (
                                     <div key={idx} className='WebSite'>
-                                        <a href={site.Url} target='_blank' rel="noreferrer"><img src={site.Logo} alt='Site Logo' />{site.Name}</a>
+                                        {site.pdf ? (
+                                            <Link to={`/documentation?file=${encodeURIComponent(site.Url)}`}>
+                                                <img src={site.Logo} alt="..." />{site.Name}
+                                            </Link>
+                                        ) : (
+                                            <a href={site.Url} target="_blank" rel="noreferrer">
+                                                <img src={site.Logo} alt="..." />{site.Name}
+                                            </a>
+                                        )}
                                         {
                                             (AdminToken && AdmineditMode) ?
                                                 <>
@@ -998,6 +1038,9 @@ export default function IndexPage({ setPage }) {
                                                                                 </option>
                                                                             ))}
                                                                         </select>
+                                                                        <label className='d-flex'>
+                                                                            Enable PDF <input type="checkbox" value={editCommonSite.pdf} checked={editCommonSite.pdf} onChange={(e) => setEditCommonSite({ ...editCommonSite, pdf: e.target.checked })} />
+                                                                        </label>
                                                                     </div>
                                                                     <div className="modal-footer">
                                                                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -1199,6 +1242,9 @@ export default function IndexPage({ setPage }) {
                                         <option key={idx} value={category.Category}>{category.Category}</option>
                                     ))}
                                 </select>
+                                <label className='d-flex'>
+                                    Enable PDF <input type="checkbox" checked={Site.pdf} onChange={(e) => setSite({ ...Site, pdf: e.target.checked })} />
+                                </label>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -1299,31 +1345,10 @@ export default function IndexPage({ setPage }) {
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body">
-                                <input
-                                    type="text"
-                                    placeholder="Name"
-                                    value={commonSite.Name}
-                                    onChange={e => setCommonSite({ ...commonSite, Name: e.target.value })}
-                                    required
-                                />
-                                <input
-                                    type="text"
-                                    placeholder="URL"
-                                    value={commonSite.Url}
-                                    onChange={e => setCommonSite({ ...commonSite, Url: e.target.value })}
-                                    required
-                                />
-                                <input
-                                    type="text"
-                                    placeholder="Logo"
-                                    value={commonSite.Logo}
-                                    onChange={e => setCommonSite({ ...commonSite, Logo: e.target.value })}
-                                    required
-                                />
-                                <select
-                                    value={commonSite.Category}
-                                    onChange={e => setCommonSite({ ...commonSite, Category: e.target.value })}
-                                    required>
+                                <input type="text" placeholder="Name" value={commonSite.Name} onChange={e => setCommonSite({ ...commonSite, Name: e.target.value })} required />
+                                <input type="text" placeholder="URL" value={commonSite.Url} onChange={e => setCommonSite({ ...commonSite, Url: e.target.value })} required />
+                                <input type="text" placeholder="Logo" value={commonSite.Logo} onChange={e => setCommonSite({ ...commonSite, Logo: e.target.value })} required />
+                                <select value={commonSite.Category} onChange={e => setCommonSite({ ...commonSite, Category: e.target.value })} required>
                                     <option value="">--Select Category--</option>
                                     {allCommonCategories.map((category, index) => (
                                         <option key={index} value={category.Name}>
@@ -1331,6 +1356,9 @@ export default function IndexPage({ setPage }) {
                                         </option>
                                     ))}
                                 </select>
+                                <label className='d-flex'>
+                                    Enable PDF<input type="checkbox" checked={commonSite.pdf} onChange={e => setCommonSite({ ...commonSite, pdf: e.target.checked })} />
+                                </label>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
