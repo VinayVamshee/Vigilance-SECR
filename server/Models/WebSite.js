@@ -21,6 +21,10 @@ const SiteSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User', 
         required: true,
+    },
+    pdf: {
+        type: Boolean,
+        default: false 
     }
 });
 
