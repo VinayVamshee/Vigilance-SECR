@@ -21,6 +21,10 @@ const CommonSiteSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
+    },
+    pdf: {
+        type: Boolean,
+        default: false 
     }
 });
 
