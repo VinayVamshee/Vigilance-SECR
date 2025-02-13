@@ -59,7 +59,7 @@ export default function Documentation() {
         extractText();
     }
 
-    const extractText = useCallback(async() => {
+    const extractText = useCallback(async () => {
         if (!processedFile) return;
 
         const loadingTask = pdfjs.getDocument(processedFile);
@@ -97,7 +97,7 @@ export default function Documentation() {
         }
 
         setMatches(extractedMatches);
-    }, [processedFile, searchQuery]); 
+    }, [processedFile, searchQuery]);
 
 
     useEffect(() => {
@@ -155,9 +155,22 @@ export default function Documentation() {
         return () => window.removeEventListener('resize', updateDimensions);
     }, []);
 
-    const [bgColor, setBgColor] = useState("#ffffff");
-    const [bgImage, setBgImage] = useState("");
-    const [bgVideo, setBgVideo] = useState("");
+    const [bgColor, setBgColor] = useState(localStorage.getItem("bgColor") || "");
+    const [bgImage, setBgImage] = useState(localStorage.getItem("bgImage") || "");
+    const [bgVideo, setBgVideo] = useState(localStorage.getItem("bgVideo") || "");
+
+    // ✅ Save to localStorage whenever values change
+    useEffect(() => {
+        localStorage.setItem("bgColor", bgColor);
+    }, [bgColor]);
+
+    useEffect(() => {
+        localStorage.setItem("bgImage", bgImage);
+    }, [bgImage]);
+
+    useEffect(() => {
+        localStorage.setItem("bgVideo", bgVideo);
+    }, [bgVideo]);
 
 
     return (
