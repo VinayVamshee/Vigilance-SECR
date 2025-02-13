@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import HTMLFlipBook from 'react-pageflip';
 import { Document, Page, pdfjs } from 'react-pdf';
@@ -21,6 +21,10 @@ export default function Documentation() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const file = queryParams.get('file'); // Get the file link from URL
+
+    const [searchQuery, setSearchQuery] = useState("");
+    const [matches, setMatches] = useState([]);
+
 
     const [numPages, setNumPages] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -52,7 +56,53 @@ export default function Documentation() {
 
     function onDocumentLoadSuccess({ numPages }) {
         setNumPages(numPages);
+        extractText();
     }
+
+    const extractText = useCallback(async() => {
+        if (!processedFile) return;
+
+        const loadingTask = pdfjs.getDocument(processedFile);
+        const pdf = await loadingTask.promise;
+        let extractedMatches = [];
+
+        for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const textContent = await page.getTextContent();
+
+            // Convert text items into an array of lines
+            const lines = textContent.items.map((item) => item.str);
+            const pageText = lines.join(" "); // Entire page as a single string
+
+            if (searchQuery) {
+                const regex = new RegExp(searchQuery, "gi");
+                let match;
+                let uniqueLines = new Set(); // Use a Set to prevent duplicate lines
+
+                while ((match = regex.exec(pageText)) !== null) {
+                    // Find all lines that contain the match
+                    // eslint-disable-next-line 
+                    lines.forEach((line) => {
+                        if (line.includes(match[0])) {
+                            uniqueLines.add(line); // Add unique lines
+                        }
+                    });
+                }
+
+                // Convert Set to array and add to extractedMatches
+                uniqueLines.forEach((line) => {
+                    extractedMatches.push({ text: line, page: i });
+                });
+            }
+        }
+
+        setMatches(extractedMatches);
+    }, [processedFile, searchQuery]); 
+
+
+    useEffect(() => {
+        extractText();
+    }, [extractText]);
 
     function handleFlip(event) {
         flipSound.play().catch((e) => console.error("Audio play error:", e));
@@ -72,6 +122,14 @@ export default function Documentation() {
             setCurrentPage(currentPage - 1);
         }
     };
+
+    const flipToPage = (pageNumber) => {
+        if (flipbookRef.current) {
+            flipbookRef.current.pageFlip().turnToPage(pageNumber - 1); // Pages start at 0
+            setCurrentPage(pageNumber);
+        }
+    };
+
 
     const [dimensions, setDimensions] = useState({ width: 500, height: 707 });
 
@@ -98,14 +156,97 @@ export default function Documentation() {
     }, []);
 
     const [bgColor, setBgColor] = useState("#ffffff");
+    const [bgImage, setBgImage] = useState("");
+    const [bgVideo, setBgVideo] = useState("");
+
 
     return (
-        <div className="flipbook-container" style={{ backgroundColor: bgColor }}>
+        <div className="flipbook-container"
+            style={{
+                backgroundColor: bgVideo ? "transparent" : bgImage ? "transparent" : bgColor,
+                backgroundImage: bgVideo ? "none" : bgImage ? `url(${bgImage})` : "none",
+            }}>
+            {bgVideo && (
+                <video autoPlay loop muted playsInline className="bg-video" style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    zIndex: -1
+                }} >
+                    <source src={bgVideo} type="video/mp4" />
+                </video>
+            )}
+
             <Link className='backbutton' to='/index'>Back</Link>
-            <label className="color-picker">
-                🎨 Choose Background:
-                <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} />
-            </label>
+
+
+            <div className="search-container">
+                <input type="text" placeholder="Search in PDF..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                {searchQuery && matches.length > 0 && (
+                    <div className='matches'>
+                        {matches.length} Matches Found
+                        <ul className="match-list">
+                            {matches.map((match, index) => (
+                                <li key={index} onClick={() => flipToPage(match.page)}>
+                                    <strong>Page {match.page}:</strong> {match.text}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+            </div>
+
+            <div className="background-selector">
+                <details>
+                    <summary className="dropdown-button mx-5">🎨 Choose Background</summary>
+                    <div className="dropdown-content">
+                        <label className="color-picker">
+                            🎨 Background Color:
+                            <input
+                                type="color"
+                                value={bgColor}
+                                onChange={(e) => {
+                                    setBgColor(e.target.value);
+                                    setBgImage("");
+                                    setBgVideo(""); // Reset image & video if color is chosen
+                                }}
+                            />
+                        </label>
+
+                        <label className="bg-picker">
+                            🖼️ Background Image:
+                            <input
+                                type="url"
+                                value={bgImage}
+                                onChange={(e) => {
+                                    setBgImage(e.target.value);
+                                    setBgColor("");
+                                    setBgVideo(""); // Reset color & video if image is chosen
+                                }}
+                                placeholder="Enter image URL"
+                            />
+                        </label>
+
+                        <label className="video-picker">
+                            🎥 Background Video:
+                            <input
+                                type="url"
+                                value={bgVideo}
+                                onChange={(e) => {
+                                    setBgVideo(e.target.value);
+                                    setBgColor("");
+                                    setBgImage(""); // Reset color & image if video is chosen
+                                }}
+                                placeholder="Enter video URL (MP4)"
+                            />
+                        </label>
+                    </div>
+                </details>
+            </div>
+
             {processedFile ? (
                 <div className='view-download'>
                     <Document file={processedFile} onLoadSuccess={onDocumentLoadSuccess}>
