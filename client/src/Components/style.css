@@ -603,7 +603,7 @@
 .flipbook-container {
     padding: 50px;
     min-width: 100%;
-    min-height: 100%;
+    min-height: 110vh;
     position: relative;
 
 
