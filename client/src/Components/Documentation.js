@@ -30,6 +30,10 @@ export default function Documentation() {
     const [currentPage, setCurrentPage] = useState(1);
     const [processedFile, setProcessedFile] = useState(null);
 
+    const corsProxy = "https://api.allorigins.win/raw?url=";
+    const pdfUrl = corsProxy + encodeURIComponent(getPreviewLink(file));
+
+
     function getPreviewLink(originalLink) {
         const match = originalLink.match(/(?:\/d\/|id=)([\w-]+)/);
         if (match) {
@@ -42,7 +46,7 @@ export default function Documentation() {
             } else if (originalLink.includes('docs.google.com/presentation')) {
                 return `https://docs.google.com/presentation/d/${fileId}/export/pdf`;
             } else {
-                return `https://drive.google.com/uc?export=download&id=${fileId}`;
+                return `https://drive.google.com/uc?export=view&id=${fileId}`;
             }
         }
         return originalLink;
@@ -172,6 +176,29 @@ export default function Documentation() {
         localStorage.setItem("bgVideo", bgVideo);
     }, [bgVideo]);
 
+    const [zoomLevel, setZoomLevel] = useState(1);
+
+    const zoomIn = () => {
+        setZoomLevel((prev) => Math.min(prev + 0.2, 3)); // Limit zoom-in to 3x
+    };
+
+    const zoomOut = () => {
+        setZoomLevel((prev) => Math.max(prev - 0.2, 0.5)); // Limit zoom-out to 0.5x
+    };
+
+    const shareUrl = () => {
+        const currentUrl = window.location.href;
+        navigator.clipboard.writeText(currentUrl);
+        alert("URL copied to clipboard!");
+    };
+
+    // Apply transform scaling to the flipbook
+    const flipbookStyle = {
+        transform: `scale(${zoomLevel})`,
+        transformOrigin: "center",
+    };
+
+
 
     return (
         <div className="flipbook-container"
@@ -210,6 +237,17 @@ export default function Documentation() {
                         </ul>
                     </div>
                 )}
+            </div>
+
+            <div class="btn-group dropup controls">
+                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                </button>
+                <ul class="dropdown-menu">
+                    <li className='dropdown-item'><button onClick={zoomIn} className="btn"><img src='https://cdn-icons-png.flaticon.com/512/99/99158.png' alt='...' />Zoom in</button></li>
+                    <li className='dropdown-item'><button onClick={zoomOut} className="btn"><img src='https://cdn-icons-png.flaticon.com/512/152/152627.png' alt='...' />Zoom out</button></li>
+                    <li className='dropdown-item'><button onClick={shareUrl} className="btn"> <img src='https://cdn-icons-png.flaticon.com/512/91/91375.png' alt='...' />Copy Url</button></li>
+                    <li className='dropdown-item'><a href={processedFile} download className="btn"><img src='https://cdn-icons-png.flaticon.com/512/181/181523.png' alt='...' />Download</a></li>
+                </ul>
             </div>
 
             <div className="background-selector">
@@ -273,6 +311,7 @@ export default function Documentation() {
                                     mobileScrollSupport={true}
                                     onFlip={handleFlip}
                                     className='flipbook'  // Flipbook styling
+                                    style={flipbookStyle}
 
                                 >
                                     {[...Array(numPages).keys()].map((pNum) => (
@@ -298,9 +337,6 @@ export default function Documentation() {
                         <button onClick={flipToPrevPage} disabled={currentPage === 1} className="btn">
                             Prev Page
                         </button>
-                        <a href={processedFile} download className="btn">
-                            Download PDF
-                        </a>
                         <button onClick={flipToNextPage} disabled={currentPage === numPages} className="btn">
                             Next Page
                         </button>
