@@ -640,7 +640,7 @@
     transition: 1s ease-in-out;
 
     background-color: rgba(255, 255, 255, 0.865);
-   
+
 }
 
 .flipbook-container .search-container ul {
@@ -662,6 +662,13 @@
 
 .flipbook-container .search-container ul li:hover {
     cursor: pointer;
+}
+
+.flipbook-container .search-container input {
+    width: 150px;
+    border-radius: 5px;
+    border: none;
+    height: 30px;
 }
 
 .flipbook-container .backbutton {
@@ -744,7 +751,7 @@
 .flipbook-container .background-selector {
     position: fixed;
     bottom: 1%;
-    right: 5%;
+    left: 5%;
     z-index: 1000;
 
     background-color: black;
@@ -761,6 +768,41 @@
 
 }
 
+.flipbook-container .controls {
+    position: fixed;
+    right: 3%;
+    bottom: 1%;
+
+    display: flex;
+    gap: 5px;
+
+    z-index: 2000;
+}
+
+.flipbook-container .controls .dropdown-toggle {
+    height: 30px;
+    transition: 0.2s ease-in-out;
+}
+
+.flipbook-container .controls .dropdown-toggle:hover {
+    background-color: rgb(240, 240, 240);
+}
+
+.flipbook-container .controls .btn {
+    background-color: white;
+    color: black;
+    transition: 0.2s ease;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.flipbook-container .controls .btn img {
+    height: 20px;
+    width: fit-content;
+}
 
 .flipbook {
     background-color: white;
